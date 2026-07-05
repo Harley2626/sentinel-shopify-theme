@@ -1,0 +1,482 @@
+/**
+ * Sentinel Motion System
+ * One shared animation language: transform + opacity only.
+ */
+
+:root {
+  --sentinel-motion-reveal-duration: 700ms;
+  --sentinel-motion-stagger: 60ms;
+  --sentinel-motion-hover-duration: 250ms;
+  --sentinel-motion-float-hero: 10s;
+  --sentinel-motion-float-product: 12s;
+  --sentinel-motion-glow-duration: 9s;
+  --sentinel-motion-parallax-max: 10px;
+  --sentinel-motion-tilt-max: 2deg;
+  --sentinel-motion-count-duration: 1200ms;
+  --sentinel-motion-crossfade: 350ms;
+}
+
+/* --------------------------------------------------------------------------
+   Keyframes
+   -------------------------------------------------------------------------- */
+
+@keyframes sentinel-motion-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -0.375rem, 0);
+  }
+}
+
+@keyframes sentinel-motion-float-hero {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -0.625rem, 0);
+  }
+}
+
+@keyframes sentinel-motion-float-product {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -0.2rem, 0);
+  }
+}
+
+@keyframes sentinel-motion-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.42;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.58;
+    transform: scale(1.03);
+  }
+}
+
+@keyframes sentinel-motion-header-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -0.375rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes sentinel-motion-value-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.35rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reveal — fade + slide-up (max 700ms)
+   -------------------------------------------------------------------------- */
+
+[data-motion-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 1rem, 0);
+  transition:
+    opacity var(--sentinel-motion-reveal-duration) var(--sentinel-ease-out),
+    transform var(--sentinel-motion-reveal-duration) var(--sentinel-ease-aggressive);
+  will-change: opacity, transform;
+}
+
+[data-motion-reveal].sentinel-motion--revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition-delay: calc(var(--sentinel-motion-stagger) * var(--motion-index, 0));
+}
+
+/* --------------------------------------------------------------------------
+   Stagger — sequential children
+   -------------------------------------------------------------------------- */
+
+[data-motion-stagger] > [data-motion-stagger-item] {
+  opacity: 0;
+  transform: translate3d(0, 1rem, 0);
+  transition:
+    opacity var(--sentinel-motion-reveal-duration) var(--sentinel-ease-out),
+    transform var(--sentinel-motion-reveal-duration) var(--sentinel-ease-aggressive);
+  transition-delay: calc(var(--sentinel-motion-stagger) * var(--motion-index, 0));
+  will-change: opacity, transform;
+}
+
+[data-motion-stagger].sentinel-motion--revealed > [data-motion-stagger-item] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* --------------------------------------------------------------------------
+   Section scroll reveal
+   -------------------------------------------------------------------------- */
+
+[data-motion-section] {
+  opacity: 0;
+  transform: translate3d(0, 1.5rem, 0);
+  transition:
+    opacity var(--sentinel-motion-reveal-duration) var(--sentinel-ease-out),
+    transform var(--sentinel-motion-reveal-duration) var(--sentinel-ease-aggressive);
+  will-change: opacity, transform;
+}
+
+[data-motion-section].sentinel-motion--revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* --------------------------------------------------------------------------
+   Float
+   -------------------------------------------------------------------------- */
+
+[data-motion-float='hero'] {
+  animation: sentinel-motion-float-hero var(--sentinel-motion-float-hero) var(--sentinel-ease-in-out) infinite;
+  will-change: transform;
+}
+
+[data-motion-float='product'] {
+  animation: sentinel-motion-float-product var(--sentinel-motion-float-product) var(--sentinel-ease-in-out) infinite;
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   Glow — gentle breathing
+   -------------------------------------------------------------------------- */
+
+[data-motion-glow] {
+  animation: sentinel-motion-glow-pulse var(--sentinel-motion-glow-duration) var(--sentinel-ease-in-out) infinite;
+  will-change: opacity, transform;
+}
+
+/* --------------------------------------------------------------------------
+   Parallax + tilt (JS sets CSS vars)
+   -------------------------------------------------------------------------- */
+
+[data-motion-parallax] {
+  transform: translate3d(var(--motion-parallax-x, 0), var(--motion-parallax-y, 0), 0)
+    rotateX(var(--motion-tilt-x, 0deg)) rotateY(var(--motion-tilt-y, 0deg));
+  transition: transform 500ms var(--sentinel-ease-out);
+  will-change: transform;
+}
+
+[data-motion-parallax-inner] {
+  transform: translate3d(0, var(--motion-scroll-y, 0), 0);
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   Value change — price / inventory
+   -------------------------------------------------------------------------- */
+
+.sentinel-motion--value-change {
+  animation: sentinel-motion-value-in var(--sentinel-motion-hover-duration) var(--sentinel-ease-out) both;
+}
+
+/* --------------------------------------------------------------------------
+   Gallery crossfade
+   -------------------------------------------------------------------------- */
+
+.sentinel-motion--crossfade-out {
+  opacity: 0;
+  transition: opacity var(--sentinel-motion-crossfade) var(--sentinel-ease-out);
+}
+
+.sentinel-motion--crossfade-in {
+  animation: sentinel-motion-value-in var(--sentinel-motion-crossfade) var(--sentinel-ease-out) both;
+}
+
+/* --------------------------------------------------------------------------
+   Header
+   -------------------------------------------------------------------------- */
+
+.sentinel-motion-header.header-sentinel--ready {
+  animation: sentinel-motion-header-enter var(--sentinel-motion-reveal-duration) var(--sentinel-ease-out) both;
+}
+
+.header-sentinel {
+  transition:
+    height 450ms var(--sentinel-ease-out),
+    box-shadow 450ms var(--sentinel-ease-out);
+}
+
+.header-sentinel__backdrop {
+  transition:
+    opacity 450ms var(--sentinel-ease-out),
+    backdrop-filter 450ms var(--sentinel-ease-out),
+    background-color 450ms var(--sentinel-ease-out);
+}
+
+.header-sentinel__nav-link::after {
+  transition: transform 300ms var(--sentinel-ease-out);
+}
+
+.header-sentinel__logo {
+  transition: filter var(--sentinel-motion-hover-duration) var(--sentinel-ease-out);
+}
+
+.header-sentinel__logo:hover {
+  filter: brightness(1.15);
+}
+
+.header-sentinel__icon-btn {
+  transition:
+    color var(--sentinel-motion-hover-duration) var(--sentinel-ease-out),
+    transform var(--sentinel-motion-hover-duration) var(--sentinel-ease-out),
+    background-color var(--sentinel-motion-hover-duration) var(--sentinel-ease-out);
+}
+
+.header-sentinel__icon-btn:hover {
+  transform: translate3d(0, -1px, 0) scale(1.06);
+}
+
+.header-sentinel__cta .sentinel-btn--primary:hover {
+  box-shadow:
+    0 0.35rem 1rem rgb(0 0 0 / 0.3),
+    0 0 1.25rem rgb(242 106 33 / 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   Buttons — lift, glow, press
+   -------------------------------------------------------------------------- */
+
+.sentinel-btn {
+  transition:
+    transform var(--sentinel-motion-hover-duration) var(--sentinel-ease-out),
+    box-shadow var(--sentinel-motion-hover-duration) var(--sentinel-ease-out),
+    background-color var(--sentinel-transition-fast),
+    border-color var(--sentinel-transition-fast),
+    color var(--sentinel-transition-fast);
+}
+
+.sentinel-btn--primary:hover {
+  transform: translate3d(0, -3px, 0);
+  box-shadow:
+    0 0.5rem 1.25rem rgb(0 0 0 / 0.32),
+    0 0 1.25rem rgb(242 106 33 / 0.32);
+}
+
+.sentinel-btn--secondary:hover,
+.sentinel-btn--surface:hover {
+  transform: translate3d(0, -2px, 0);
+  box-shadow: 0 0.35rem 1rem rgb(0 0 0 / 0.22);
+}
+
+.sentinel-btn:active {
+  transform: translate3d(0, 1px, 0) scale(0.98);
+  transition-duration: 100ms;
+}
+
+/* --------------------------------------------------------------------------
+   Technology cards
+   -------------------------------------------------------------------------- */
+
+.technology-sentinel__card {
+  position: relative;
+  border-block-start: 3px solid transparent;
+  transition:
+    transform 300ms var(--sentinel-ease-out),
+    box-shadow 300ms var(--sentinel-ease-out),
+    border-color 300ms var(--sentinel-ease-out);
+}
+
+.technology-sentinel__card::after {
+  content: '';
+  position: absolute;
+  top: var(--sentinel-space-6);
+  right: var(--sentinel-space-6);
+  width: 0.625rem;
+  height: 0.625rem;
+  border: 1px solid rgb(242 106 33 / 0.35);
+  transform: rotate(45deg);
+  transition: transform 300ms var(--sentinel-ease-out);
+  pointer-events: none;
+}
+
+.technology-sentinel__card:hover {
+  transform: translate3d(0, -4px, 0);
+  border-block-start-color: var(--sentinel-color-primary);
+  box-shadow:
+    var(--sentinel-shadow-md),
+    0 0 1.5rem rgb(242 106 33 / 0.07);
+}
+
+.technology-sentinel__card:hover::after {
+  transform: rotate(48deg);
+}
+
+/* --------------------------------------------------------------------------
+   Product — variant cards
+   -------------------------------------------------------------------------- */
+
+.product-sentinel-option__card {
+  transition:
+    border-color var(--sentinel-motion-hover-duration) var(--sentinel-ease-out),
+    box-shadow var(--sentinel-motion-hover-duration) var(--sentinel-ease-out),
+    background-color var(--sentinel-motion-hover-duration) var(--sentinel-ease-out),
+    transform var(--sentinel-motion-hover-duration) var(--sentinel-ease-out);
+}
+
+.product-sentinel-option:hover .product-sentinel-option__card {
+  transform: translate3d(0, -2px, 0);
+}
+
+.product-sentinel-option--selected .product-sentinel-option__card,
+.product-sentinel-option__input:checked + .product-sentinel-option__card {
+  transform: scale(1.02);
+  border-color: var(--sentinel-color-primary);
+  box-shadow:
+    var(--sentinel-shadow-glow),
+    0 0 1.5rem rgb(242 106 33 / 0.18);
+}
+
+.product-sentinel-gallery__hero-image {
+  transition: opacity var(--sentinel-motion-crossfade) var(--sentinel-ease-out);
+}
+
+.product-sentinel-gallery__ambient {
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(242 106 33 / 0.16) 0%,
+    rgb(242 106 33 / 0.04) 45%,
+    transparent 72%
+  );
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity 450ms var(--sentinel-ease-out),
+    transform 450ms var(--sentinel-ease-out);
+  pointer-events: none;
+}
+
+.product-sentinel--premium-glow .product-sentinel-gallery__ambient {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.product-sentinel-price__amount,
+.product-sentinel-price__inventory {
+  display: inline-block;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile — softer float
+   -------------------------------------------------------------------------- */
+
+.sentinel-motion--mobile [data-motion-float='hero'] {
+  animation-name: sentinel-motion-float;
+  animation-duration: 14s;
+}
+
+.sentinel-motion--mobile [data-motion-float='product'] {
+  animation-duration: 16s;
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --sentinel-motion-reveal-duration: 0ms;
+    --sentinel-motion-stagger: 0ms;
+    --sentinel-motion-count-duration: 0ms;
+    --sentinel-motion-crossfade: 0ms;
+  }
+
+  [data-motion-reveal],
+  [data-motion-stagger] > [data-motion-stagger-item],
+  [data-motion-section] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  [data-motion-float],
+  [data-motion-glow] {
+    animation: none;
+  }
+
+  [data-motion-parallax],
+  [data-motion-parallax-inner] {
+    transform: none;
+    transition: none;
+  }
+
+  .sentinel-motion-header.header-sentinel--ready {
+    animation: none;
+  }
+
+  .sentinel-btn:hover,
+  .sentinel-btn:active {
+    transform: none;
+  }
+
+  .technology-sentinel__card:hover {
+    transform: none;
+  }
+
+  .technology-sentinel__card:hover::after {
+    transform: rotate(45deg);
+  }
+
+  .header-sentinel__icon-btn:hover,
+  .header-sentinel__logo:hover {
+    transform: none;
+    filter: none;
+  }
+
+  .product-sentinel-option--selected .product-sentinel-option__card,
+  .product-sentinel-option__input:checked + .product-sentinel-option__card {
+    transform: none;
+  }
+
+  .product-sentinel--premium-glow .product-sentinel-gallery__ambient {
+    opacity: 0;
+  }
+}
+
+.sentinel-motion--reduced [data-motion-reveal],
+.sentinel-motion--reduced [data-motion-stagger] > [data-motion-stagger-item],
+.sentinel-motion--reduced [data-motion-section] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+.sentinel-motion--reduced [data-motion-float],
+.sentinel-motion--reduced [data-motion-glow] {
+  animation: none;
+}
+
+.sentinel-motion--reduced [data-motion-parallax],
+.sentinel-motion--reduced [data-motion-parallax-inner] {
+  transform: none;
+}
+
+.sentinel-motion--reduced .sentinel-motion-header.header-sentinel--ready {
+  animation: none;
+}

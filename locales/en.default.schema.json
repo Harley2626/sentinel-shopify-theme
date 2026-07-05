@@ -128,10 +128,13 @@
       "settings": {
         "media_header": "Media",
         "background_image": "Background image",
+        "background_image_info": "Optional full-bleed photo. Atmosphere placeholders show when empty.",
         "background_video": "Background video",
         "background_video_info": "Optional MP4 video. Overrides the background image when set.",
         "helmet_image": "Helmet image",
+        "helmet_image_info": "Product cutout on the right. Silhouette placeholder shows when empty.",
         "overlay_opacity": "Overlay opacity",
+        "overlay_opacity_info": "Darkens background media so text stays readable.",
         "content_header": "Content",
         "eyebrow": "Eyebrow text",
         "heading": "Heading",
@@ -148,7 +151,8 @@
         "content_width_wide": "Wide",
         "text_alignment": "Text alignment",
         "desktop_height": "Desktop height",
-        "mobile_height": "Mobile height"
+        "mobile_height": "Mobile height",
+        "show_scroll_indicator": "Show scroll indicator"
       }
     },
     "header_sentinel": {

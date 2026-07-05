@@ -97,18 +97,26 @@
 
 .product-sentinel-gallery__hero {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  aspect-ratio: 1;
+  aspect-ratio: 4 / 5;
+  padding: var(--sentinel-space-6);
   background-color: var(--sentinel-color-surface);
   border: 1px solid var(--sentinel-color-border-subtle);
   border-radius: var(--sentinel-radius-md);
 }
 
-.product-sentinel-gallery__hero-image,
+.product-sentinel-gallery__hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .product-sentinel-gallery__placeholder {
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 
 .product-sentinel-gallery__thumbs {
@@ -152,7 +160,8 @@
 .product-sentinel-gallery__thumb-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  padding: var(--sentinel-space-1);
 }
 
 /* Variant option cards */
@@ -186,29 +195,16 @@
   background-color: var(--sentinel-color-card);
   border: 1px solid var(--sentinel-color-border-subtle);
   border-radius: var(--sentinel-radius-md);
-  transition:
-    border-color var(--sentinel-transition-base),
-    box-shadow var(--sentinel-transition-base),
-    background-color var(--sentinel-transition-fast),
-    transform var(--sentinel-transition-fast);
-}
-
-.product-sentinel-option:hover .product-sentinel-option__card {
-  border-color: var(--sentinel-color-border);
-  transform: translateY(-2px);
-}
-
-.product-sentinel-option--selected .product-sentinel-option__card,
-.product-sentinel-option__input:checked + .product-sentinel-option__card,
-.product-sentinel-option__input:focus-visible + .product-sentinel-option__card {
-  border-color: var(--sentinel-color-primary);
-  box-shadow: var(--sentinel-shadow-glow);
-  background-color: var(--sentinel-color-surface);
 }
 
 .product-sentinel-option__input:focus-visible + .product-sentinel-option__card {
   outline: 2px solid var(--sentinel-color-primary);
   outline-offset: 2px;
+}
+
+.product-sentinel-option--selected .product-sentinel-option__card,
+.product-sentinel-option__input:checked + .product-sentinel-option__card {
+  background-color: var(--sentinel-color-surface);
 }
 
 .product-sentinel-option__badge {
@@ -436,13 +432,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .product-sentinel-gallery__thumb,
-  .product-sentinel-option__card {
+  .product-sentinel-gallery__thumb {
     transition: none;
   }
 
-  .product-sentinel-gallery__thumb:hover,
-  .product-sentinel-option:hover .product-sentinel-option__card {
+  .product-sentinel-gallery__thumb:hover {
     transform: none;
   }
 }

@@ -3,6 +3,7 @@
 <section
   id="StatsSentinel-{{ section.id }}"
   class="stats-sentinel full-width"
+  data-motion-section
   aria-label="{{ section.settings.heading | default: 'Performance stats' | escape }}"
 >
   <div class="sentinel-container sentinel-container--wide">
@@ -10,11 +11,15 @@
       <h2 class="sentinel-visually-hidden">{{ section.settings.heading | escape }}</h2>
     {%- endif -%}
 
-    <div class="stats-sentinel__grid">
+    <div class="stats-sentinel__grid" data-motion-stagger>
       {%- for block in section.blocks -%}
-        <div class="stats-sentinel__item" {{ block.shopify_attributes }}>
+        <div class="stats-sentinel__item" data-motion-stagger-item {{ block.shopify_attributes }}>
           {%- if block.settings.value != blank -%}
-            <span class="stats-sentinel__value">{{ block.settings.value | escape }}</span>
+            <span
+              class="stats-sentinel__value"
+              data-motion-count
+              data-motion-count-value="{{ block.settings.value | escape }}"
+            >{{ block.settings.value | escape }}</span>
           {%- endif -%}
           {%- if block.settings.label != blank -%}
             <span class="stats-sentinel__label">{{ block.settings.label | escape }}</span>

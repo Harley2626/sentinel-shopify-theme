@@ -30,15 +30,30 @@
       if (!this.hero || this.hero.tagName !== 'IMG') return;
 
       const src = thumb.dataset.imageSrc;
+      const srcset = thumb.dataset.imageSrcset;
       const alt = thumb.dataset.imageAlt;
+      const motion = window.SentinelMotion;
 
-      if (src) {
-        this.hero.src = src;
-        this.hero.srcset = '';
-      }
+      const applyUpdate = () => {
+        if (src) {
+          this.hero.src = src;
+        }
 
-      if (alt) {
-        this.hero.alt = alt;
+        if (srcset) {
+          this.hero.srcset = srcset;
+        } else {
+          this.hero.removeAttribute('srcset');
+        }
+
+        if (alt) {
+          this.hero.alt = alt;
+        }
+      };
+
+      if (motion?.crossfadeImage) {
+        motion.crossfadeImage(this.hero, applyUpdate);
+      } else {
+        applyUpdate();
       }
 
       this.thumbs.forEach((t) => {
@@ -170,12 +185,14 @@
 
       if (this.priceAmount) {
         this.priceAmount.textContent = this.formatMoney(variant.price);
+        window.SentinelMotion?.pulseValue(this.priceAmount);
       }
 
       if (this.priceCompare) {
         if (variant.compare_at_price && variant.compare_at_price > variant.price) {
           this.priceCompare.textContent = this.formatMoney(variant.compare_at_price);
           this.priceCompare.hidden = false;
+          window.SentinelMotion?.pulseValue(this.priceCompare);
         } else {
           this.priceCompare.hidden = true;
         }
@@ -192,6 +209,7 @@
 
       if (this.inventoryEl) {
         this.inventoryEl.textContent = this.getInventoryMessage(variant);
+        window.SentinelMotion?.pulseValue(this.inventoryEl);
         this.inventoryEl.classList.remove(
           'product-sentinel-price__inventory--low',
           'product-sentinel-price__inventory--out'

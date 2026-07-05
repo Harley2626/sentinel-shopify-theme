@@ -2,7 +2,7 @@
 <script src="{{ 'header-sentinel.js' | asset_url }}" defer></script>
 
 {%- liquid
-  assign header_classes = 'header-sentinel full-width'
+  assign header_classes = 'header-sentinel sentinel-motion-header full-width'
 
   if section.settings.enable_sticky
     assign header_classes = header_classes | append: ' header-sentinel--sticky'
@@ -45,16 +45,14 @@
       {{ 'header_sentinel.skip_to_content' | t }}
     </a>
 
-    {%- if logo_image != blank -%}
-      <a class="header-sentinel__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-        {% render 'sentinel-logo',
-          image: logo_image,
-          class: 'header-sentinel__logo-image',
-          loading: 'eager',
-          image_sizes: '(min-width: 990px) var(--header-logo-width), var(--header-logo-width-mobile)'
-        %}
-      </a>
-    {%- endif -%}
+    <a class="header-sentinel__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+      {% render 'sentinel-logo',
+        image: logo_image,
+        class: 'header-sentinel__logo-image',
+        loading: 'eager',
+        image_sizes: '(min-width: 990px) var(--header-logo-width), var(--header-logo-width-mobile)'
+      %}
+    </a>
 
     <nav class="header-sentinel__nav" aria-label="{{ 'header_sentinel.navigation' | t }}">
       {%- if section.settings.menu != blank -%}
@@ -150,18 +148,14 @@
 
     <div class="header-sentinel__drawer-panel" role="dialog" aria-modal="true" aria-label="{{ 'header_sentinel.navigation' | t }}">
       <div class="header-sentinel__drawer-header">
-        {%- if logo_image != blank -%}
-          <a class="header-sentinel__drawer-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-            {% render 'sentinel-logo',
-              image: logo_image,
-              class: 'header-sentinel__drawer-logo-image',
-              loading: 'eager',
-              image_sizes: '120px'
-            %}
-          </a>
-        {%- else -%}
-          <span class="header-sentinel__drawer-label">{{ 'header_sentinel.menu' | t }}</span>
-        {%- endif -%}
+        <a class="header-sentinel__drawer-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+          {% render 'sentinel-logo',
+            image: logo_image,
+            class: 'header-sentinel__drawer-logo-image',
+            loading: 'eager',
+            image_sizes: '120px'
+          %}
+        </a>
       <button
         class="header-sentinel__icon-btn"
         type="button"

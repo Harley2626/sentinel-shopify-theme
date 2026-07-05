@@ -64,6 +64,11 @@
     "navigation": "Footer navigation",
     "payment_methods": "Payment methods"
   },
+  "sections": {
+    "hero_sentinel": {
+      "scroll": "Scroll"
+    }
+  },
   "products": {
     "add_to_cart": "Add to cart",
     "sold_out": "Sold out",

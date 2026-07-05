@@ -1,5 +1,4 @@
 {{ 'hero-sentinel.css' | asset_url | stylesheet_tag }}
-<script src="{{ 'hero-sentinel.js' | asset_url }}" defer></script>
 
 {%- liquid
   assign has_video = false
@@ -12,35 +11,27 @@
     assign has_image = true
   endif
 
-  assign has_helmet = false
-  if section.settings.helmet_image != blank
-    assign has_helmet = true
-  endif
-
   assign has_media = false
   if has_video or has_image
     assign has_media = true
   endif
 
-  case section.settings.content_width
-    when 'narrow'
-      assign container_class = 'hero-sentinel__container--narrow'
-    when 'wide'
-      assign container_class = 'hero-sentinel__container--wide'
-    else
-      assign container_class = 'hero-sentinel__container--default'
-  endcase
+  assign has_helmet = false
+  if section.settings.helmet_image != blank
+    assign has_helmet = true
+  endif
+
+  assign hero_classes = 'hero-sentinel full-width'
+  if has_media
+    assign hero_classes = hero_classes | append: ' hero-sentinel--has-media'
+  endif
 
   assign align_class = 'hero-sentinel--align-' | append: section.settings.text_alignment
-
-  assign grid_class = 'hero-sentinel__grid'
-  unless has_helmet
-    assign grid_class = grid_class | append: ' hero-sentinel__grid--no-visual'
-  endunless
+  assign hero_classes = hero_classes | append: ' ' | append: align_class
 
   assign helmet_alt = section.settings.helmet_image.alt
   if helmet_alt == blank
-    assign helmet_alt = section.settings.heading
+    assign helmet_alt = 'Sentinel Cricket Helmet'
   endif
 -%}
 
@@ -54,72 +45,85 @@
 
 <section
   id="HeroSentinel-{{ section.id }}"
-  class="hero-sentinel full-width {{ align_class }}"
+  class="{{ hero_classes }}"
   data-hero-sentinel
   aria-label="{{ section.settings.heading | default: 'Hero' | escape }}"
 >
-  <div class="hero-sentinel__media" aria-hidden="true">
-    <div class="hero-sentinel__media-inner" data-hero-parallax>
-      {%- if has_video -%}
-        {{
-          section.settings.background_video
-          | video_tag:
-            class: 'hero-sentinel__video',
-            autoplay: true,
-            loop: true,
-            muted: true,
-            controls: false,
-            playsinline: true,
-            preload: 'auto',
-            image_size: '1920x'
-        }}
-      {%- elsif has_image -%}
-        {{
-          section.settings.background_image
-          | image_url: width: 2400
-          | image_tag:
-            class: 'hero-sentinel__image',
-            loading: 'eager',
-            fetchpriority: 'high',
-            widths: '750, 1100, 1500, 1920, 2400',
-            sizes: '100vw',
-            alt: ''
-        }}
-      {%- else -%}
-        <div class="hero-sentinel__placeholder-bg" aria-hidden="true"></div>
-      {%- endif -%}
-    </div>
+  <div class="hero-sentinel__atmosphere" aria-hidden="true">
+    <div class="hero-sentinel__gradient"></div>
+    <div class="hero-sentinel__glow"></div>
+    <div class="hero-sentinel__grid-texture"></div>
+    <div class="hero-sentinel__noise"></div>
+    <div class="hero-sentinel__vignette"></div>
   </div>
 
   {%- if has_media -%}
+    <div class="hero-sentinel__media" aria-hidden="true">
+      <div class="hero-sentinel__media-inner" data-motion-parallax-inner>
+        {%- if has_video -%}
+          {{
+            section.settings.background_video
+            | video_tag:
+              class: 'hero-sentinel__video',
+              autoplay: true,
+              loop: true,
+              muted: true,
+              controls: false,
+              playsinline: true,
+              preload: 'auto',
+              image_size: '1920x'
+          }}
+        {%- else -%}
+          {{
+            section.settings.background_image
+            | image_url: width: 2400
+            | image_tag:
+              class: 'hero-sentinel__image',
+              loading: 'eager',
+              fetchpriority: 'high',
+              widths: '750, 1100, 1500, 1920, 2400',
+              sizes: '100vw',
+              alt: ''
+          }}
+        {%- endif -%}
+      </div>
+    </div>
     <div class="hero-sentinel__overlay" aria-hidden="true"></div>
   {%- endif -%}
 
-  <div class="hero-sentinel__container {{ container_class }}">
-    <div class="{{ grid_class }}">
-      <div class="hero-sentinel__content">
+  <div class="hero-sentinel__container hero-sentinel__container--wide">
+    <div class="hero-sentinel__grid">
+      <div class="hero-sentinel__content" data-motion-immediate>
         {%- if section.settings.eyebrow != blank -%}
-          <p class="sentinel-overline hero-sentinel__eyebrow">
+          <p class="sentinel-caption hero-sentinel__eyebrow" data-motion-reveal data-motion-index="1">
             {{ section.settings.eyebrow | escape }}
           </p>
         {%- endif -%}
 
-        <span class="hero-sentinel__accent" aria-hidden="true"></span>
+        <span class="hero-sentinel__accent" data-motion-reveal data-motion-index="2" aria-hidden="true"></span>
 
         {%- if section.settings.heading != blank -%}
+          {%- assign heading_lines = section.settings.heading | split: '
+' -%}
           <h1 class="sentinel-heading hero-sentinel__heading">
-            {{ section.settings.heading | escape | newline_to_br }}
+            {%- for line in heading_lines -%}
+              {%- assign clean_line = line | strip -%}
+              {%- if clean_line != blank -%}
+                {%- assign line_index = forloop.index | plus: 2 -%}
+                <span class="hero-sentinel__heading-line" data-motion-reveal data-motion-index="{{ line_index }}">{{ clean_line | escape }}</span>
+              {%- endif -%}
+            {%- endfor -%}
           </h1>
         {%- endif -%}
 
         {%- if section.settings.subheading != blank -%}
-          <p class="sentinel-body-lg hero-sentinel__subheading">
+          <p class="hero-sentinel__subheading" data-motion-reveal data-motion-index="6">
             {{ section.settings.subheading | escape }}
           </p>
         {%- endif -%}
 
         {%- if section.settings.primary_button != blank or section.settings.secondary_button != blank -%}
-          <div class="hero-sentinel__actions">
+          <div class="hero-sentinel__actions" data-motion-reveal data-motion-index="7">
             {%- if section.settings.primary_button != blank -%}
               {% render 'sentinel-button',
                 label: section.settings.primary_button,
@@ -141,22 +145,33 @@
         {%- endif -%}
       </div>
 
-      {%- if has_helmet -%}
-        <div class="hero-sentinel__visual">
-          {{
-            section.settings.helmet_image
-            | image_url: width: 800
-            | image_tag:
-              class: 'hero-sentinel__helmet',
-              loading: 'eager',
-              widths: '400, 600, 800',
-              sizes: '(min-width: 990px) 28rem, (min-width: 750px) 22rem, 18rem',
-              alt: helmet_alt
-          }}
+      <div class="hero-sentinel__visual" data-motion-float="hero">
+        <div class="hero-sentinel__product-stage" data-hero-product data-motion-parallax data-motion-parallax-max="10">
+          <div class="hero-sentinel__product-glow" data-motion-glow aria-hidden="true"></div>
+          {%- if has_helmet -%}
+            {{
+              section.settings.helmet_image
+              | image_url: width: 1200
+              | image_tag:
+                class: 'hero-sentinel__helmet',
+                loading: 'eager',
+                fetchpriority: 'high',
+                widths: '600, 800, 1000, 1200',
+                sizes: '(min-width: 990px) 42rem, (min-width: 750px) 34rem, 78vw',
+                alt: helmet_alt
+            }}
+          {%- endif -%}
         </div>
-      {%- endif -%}
+      </div>
     </div>
   </div>
+
+  {%- if section.settings.show_scroll_indicator -%}
+    <a class="hero-sentinel__scroll" href="#MainContent" data-hero-scroll data-motion-reveal data-motion-index="8" aria-label="{{ 'sections.hero_sentinel.scroll' | t }}">
+      <span class="hero-sentinel__scroll-icon" aria-hidden="true"></span>
+      <span class="hero-sentinel__scroll-label">{{ 'sections.hero_sentinel.scroll' | t }}</span>
+    </a>
+  {%- endif -%}
 </section>
 
 {% schema %}
@@ -172,7 +187,8 @@
     {
       "type": "image_picker",
       "id": "background_image",
-      "label": "t:sections.hero_sentinel.settings.background_image"
+      "label": "t:sections.hero_sentinel.settings.background_image",
+      "info": "t:sections.hero_sentinel.settings.background_image_info"
     },
     {
       "type": "video",
@@ -183,17 +199,19 @@
     {
       "type": "image_picker",
       "id": "helmet_image",
-      "label": "t:sections.hero_sentinel.settings.helmet_image"
+      "label": "t:sections.hero_sentinel.settings.helmet_image",
+      "info": "t:sections.hero_sentinel.settings.helmet_image_info"
     },
     {
       "type": "range",
       "id": "overlay_opacity",
       "label": "t:sections.hero_sentinel.settings.overlay_opacity",
       "min": 0,
-      "max": 90,
+      "max": 100,
       "step": 5,
       "unit": "%",
-      "default": 60
+      "default": 85,
+      "info": "t:sections.hero_sentinel.settings.overlay_opacity_info"
     },
     {
       "type": "header",
@@ -248,26 +266,6 @@
       "content": "t:sections.hero_sentinel.settings.layout_header"
     },
     {
-      "type": "select",
-      "id": "content_width",
-      "label": "t:sections.hero_sentinel.settings.content_width",
-      "options": [
-        {
-          "value": "narrow",
-          "label": "t:sections.hero_sentinel.settings.content_width_narrow"
-        },
-        {
-          "value": "default",
-          "label": "t:sections.hero_sentinel.settings.content_width_default"
-        },
-        {
-          "value": "wide",
-          "label": "t:sections.hero_sentinel.settings.content_width_wide"
-        }
-      ],
-      "default": "default"
-    },
-    {
       "type": "text_alignment",
       "id": "text_alignment",
       "label": "t:sections.hero_sentinel.settings.text_alignment",
@@ -292,6 +290,12 @@
       "step": 5,
       "unit": "vh",
       "default": 80
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_indicator",
+      "label": "t:sections.hero_sentinel.settings.show_scroll_indicator",
+      "default": true
     }
   ],
   "presets": [

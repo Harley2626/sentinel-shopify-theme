@@ -25,10 +25,16 @@
   if featured_item == blank and gallery_items != null
     assign featured_item = gallery_items.first
   endif
+
+  assign hero_alt = product.title
+  if featured_item != blank and featured_item.alt != blank
+    assign hero_alt = featured_item.alt
+  endif
 -%}
 
 <div class="product-sentinel-gallery" data-product-gallery>
-  <div class="product-sentinel-gallery__hero">
+  <div class="product-sentinel-gallery__hero" data-motion-float="product">
+    <div class="product-sentinel-gallery__ambient" aria-hidden="true"></div>
     {%- if featured_item != blank -%}
       {{
         featured_item
@@ -39,7 +45,7 @@
           fetchpriority: 'high',
           widths: '400, 600, 800, 1000, 1200',
           sizes: '(min-width: 990px) 50vw, 100vw',
-          alt: featured_item.alt | default: product.title,
+          alt: hero_alt,
           data-gallery-hero: ''
       }}
     {%- else -%}
@@ -63,6 +69,11 @@
             endif
             assign thumb_key = forloop.index
           endif
+
+          assign thumb_alt = item.alt
+          if thumb_alt == blank
+            assign thumb_alt = product.title
+          endif
         -%}
         <button
           type="button"
@@ -70,7 +81,8 @@
           data-gallery-thumb
           data-thumb-key="{{ thumb_key }}"
           data-image-src="{{ item | image_url: width: 1200 }}"
-          data-image-alt="{{ item.alt | default: product.title | escape }}"
+          data-image-srcset="{{ item | image_url: width: 400 }} 400w, {{ item | image_url: width: 600 }} 600w, {{ item | image_url: width: 800 }} 800w, {{ item | image_url: width: 1000 }} 1000w, {{ item | image_url: width: 1200 }} 1200w"
+          data-image-alt="{{ thumb_alt | escape }}"
           aria-label="{{ 'products.gallery.view_image' | t: index: forloop.index }}"
           aria-pressed="{{ thumb_active }}"
           role="listitem"

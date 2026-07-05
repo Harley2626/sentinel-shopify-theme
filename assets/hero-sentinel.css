@@ -1,54 +1,18 @@
 /**
- * Sentinel Hero Section
- * Premium full-screen hero with parallax, video, and entrance animations.
+ * Sentinel Hero Section — Premium elevated
+ * Atmospheric placeholders, asymmetric layout, oversized product zone.
  */
 
-/* --------------------------------------------------------------------------
-   Keyframes
-   -------------------------------------------------------------------------- */
-
-@keyframes hero-sentinel-float {
+@keyframes hero-sentinel-scroll-hint {
   0%,
   100% {
+    opacity: 0.4;
     transform: translateY(0);
   }
 
   50% {
-    transform: translateY(-1rem);
-  }
-}
-
-@keyframes hero-sentinel-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(1.5rem);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes hero-sentinel-fade-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes hero-sentinel-helmet-enter {
-  from {
-    opacity: 0;
-    transform: translateY(2rem) scale(0.95);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+    opacity: 0.9;
+    transform: translateY(0.35rem);
   }
 }
 
@@ -57,6 +21,9 @@
    -------------------------------------------------------------------------- */
 
 .hero-sentinel {
+  --hero-content-col: 1fr;
+  --hero-visual-col: 1fr;
+
   position: relative;
   display: flex;
   align-items: center;
@@ -66,6 +33,13 @@
   isolation: isolate;
 }
 
+@media screen and (min-width: 990px) {
+  .hero-sentinel {
+    --hero-content-col: 0.42fr;
+    --hero-visual-col: 0.58fr;
+  }
+}
+
 @media screen and (min-width: 750px) {
   .hero-sentinel {
     min-height: var(--hero-height-desktop, 100vh);
@@ -73,14 +47,88 @@
 }
 
 /* --------------------------------------------------------------------------
-   Background media
+   Atmospheric placeholder system
+   -------------------------------------------------------------------------- */
+
+.hero-sentinel__atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-sentinel__gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgb(16 16 16 / 0.9) 0%, transparent 70%),
+    linear-gradient(165deg, #050505 0%, #0a0a0a 40%, #050505 100%);
+}
+
+.hero-sentinel__glow {
+  position: absolute;
+  top: 42%;
+  left: 68%;
+  width: min(55vw, 36rem);
+  height: min(55vw, 36rem);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(242 106 33 / 0.22) 0%,
+    rgb(242 106 33 / 0.08) 35%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 989px) {
+  .hero-sentinel__glow {
+    top: 58%;
+    left: 50%;
+    width: min(90vw, 24rem);
+    height: min(90vw, 24rem);
+  }
+}
+
+.hero-sentinel__grid-texture {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.5) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+  mask-image: radial-gradient(ellipse 70% 70% at 65% 45%, black 20%, transparent 75%);
+}
+
+.hero-sentinel__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgb(0 0 0 / 0.55) 100%);
+}
+
+.hero-sentinel__noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* --------------------------------------------------------------------------
+   Background media (photo/video replaces atmosphere when set)
    -------------------------------------------------------------------------- */
 
 .hero-sentinel__media {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   overflow: hidden;
+}
+
+.hero-sentinel--has-media .hero-sentinel__atmosphere {
+  opacity: 0.35;
 }
 
 .hero-sentinel__media-inner {
@@ -100,12 +148,6 @@
   object-position: center;
 }
 
-.hero-sentinel__placeholder-bg {
-  width: 100%;
-  height: 100%;
-  background-color: var(--sentinel-color-background);
-}
-
 .hero-sentinel__video {
   display: block;
 }
@@ -113,52 +155,56 @@
 .hero-sentinel__overlay {
   position: absolute;
   inset: 0;
-  z-index: 1;
-  background-color: var(--sentinel-color-background);
-  opacity: var(--hero-overlay-opacity, 0.6);
+  z-index: 2;
+  background: linear-gradient(
+    105deg,
+    rgb(5 5 5 / 0.85) 0%,
+    rgb(5 5 5 / 0.45) 45%,
+    rgb(5 5 5 / 0.2) 100%
+  );
+  opacity: var(--hero-overlay-opacity, 1);
   pointer-events: none;
 }
 
 /* --------------------------------------------------------------------------
-   Content layout
+   Content layout — asymmetric
    -------------------------------------------------------------------------- */
 
 .hero-sentinel__container {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   width: 100%;
+  max-width: var(--sentinel-container-max);
   margin-inline: auto;
-  padding-block: var(--sentinel-space-12);
+  padding-block: var(--sentinel-space-16);
   padding-inline: var(--page-margin);
 }
 
-.hero-sentinel__container--narrow {
-  max-width: var(--sentinel-container-narrow);
+@media screen and (min-width: 990px) {
+  .hero-sentinel__container {
+    padding-block: var(--sentinel-space-20);
+  }
 }
 
-.hero-sentinel__container--default {
-  max-width: var(--sentinel-container-default);
-}
-
+.hero-sentinel__container--narrow,
+.hero-sentinel__container--default,
 .hero-sentinel__container--wide {
-  max-width: var(--sentinel-container-wide);
+  max-width: var(--sentinel-container-max);
 }
 
 .hero-sentinel__grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--sentinel-space-10);
+  gap: var(--sentinel-space-8);
   align-items: center;
 }
 
 @media screen and (min-width: 990px) {
   .hero-sentinel__grid {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--sentinel-space-16);
-  }
-
-  .hero-sentinel__grid--no-visual {
-    grid-template-columns: 1fr;
+    grid-template-columns: var(--hero-content-col) var(--hero-visual-col);
+    gap: var(--sentinel-space-12);
+    align-items: center;
+    min-height: calc(var(--hero-height-desktop, 100vh) - var(--sentinel-space-40));
   }
 }
 
@@ -166,7 +212,7 @@
   display: flex;
   flex-direction: column;
   gap: 0;
-  max-width: 36rem;
+  max-width: 34rem;
 }
 
 .hero-sentinel--align-center .hero-sentinel__content {
@@ -181,27 +227,22 @@
   align-items: flex-end;
 }
 
-@media screen and (min-width: 990px) {
-  .hero-sentinel--align-center .hero-sentinel__content {
-    max-width: 42rem;
-  }
-}
-
 /* --------------------------------------------------------------------------
-   Typography
+   Typography — elevated scale, orange restraint
    -------------------------------------------------------------------------- */
 
 .hero-sentinel__eyebrow {
-  margin-block-end: var(--sentinel-space-3);
+  margin-block-end: var(--sentinel-space-4);
+  color: var(--sentinel-color-grey);
 }
 
 .hero-sentinel__accent {
   display: block;
   flex-shrink: 0;
-  width: 3rem;
+  width: 3.5rem;
   height: 3px;
-  margin-block: var(--sentinel-space-4) var(--sentinel-space-6);
-  background-color: var(--sentinel-color-primary);
+  margin-block: var(--sentinel-space-4) var(--sentinel-space-8);
+  background: linear-gradient(90deg, var(--sentinel-color-primary) 0%, rgb(242 106 33 / 0.2) 100%);
 }
 
 .hero-sentinel--align-center .hero-sentinel__accent {
@@ -210,19 +251,38 @@
 
 .hero-sentinel--align-right .hero-sentinel__accent {
   margin-inline-start: auto;
+  background: linear-gradient(270deg, var(--sentinel-color-primary) 0%, rgb(242 106 33 / 0.2) 100%);
+}
+
+.hero-sentinel__heading-line {
+  display: block;
 }
 
 .hero-sentinel__heading {
   margin-block-end: var(--sentinel-space-6);
-  font-size: clamp(2.5rem, 8vw, var(--sentinel-font-size-5xl));
-  line-height: var(--sentinel-line-height-tight);
-  letter-spacing: var(--sentinel-letter-spacing-widest);
+  font-size: clamp(3rem, 11vw, 7rem);
+  line-height: 0.92;
+  letter-spacing: 0.06em;
+}
+
+@media screen and (min-width: 990px) {
+  .hero-sentinel__heading {
+    margin-block-end: var(--sentinel-space-8);
+  }
 }
 
 .hero-sentinel__subheading {
-  margin-block-end: var(--sentinel-space-8);
-  max-width: 32rem;
+  margin-block-end: var(--sentinel-space-10);
+  max-width: 26rem;
+  font-size: var(--sentinel-font-size-sm);
+  line-height: var(--sentinel-line-height-relaxed);
   color: var(--sentinel-color-grey);
+}
+
+@media screen and (min-width: 750px) {
+  .hero-sentinel__subheading {
+    font-size: var(--sentinel-font-size-base);
+  }
 }
 
 .hero-sentinel--align-center .hero-sentinel__subheading {
@@ -240,6 +300,7 @@
 .hero-sentinel__actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: var(--sentinel-space-4);
 }
 
@@ -254,6 +315,7 @@
 @media screen and (max-width: 749px) {
   .hero-sentinel__actions {
     flex-direction: column;
+    align-items: stretch;
     width: 100%;
   }
 
@@ -263,131 +325,119 @@
 }
 
 /* --------------------------------------------------------------------------
-   Helmet visual
+   Product visual — oversized, always present
    -------------------------------------------------------------------------- */
 
 .hero-sentinel__visual {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   order: -1;
+  min-height: 16rem;
+}
+
+@media screen and (min-width: 750px) {
+  .hero-sentinel__visual {
+    min-height: 22rem;
+  }
 }
 
 @media screen and (min-width: 990px) {
   .hero-sentinel__visual {
     order: 0;
     justify-content: flex-end;
+    align-items: center;
+    min-height: auto;
+    padding-inline-end: var(--sentinel-space-4);
   }
+}
+
+.hero-sentinel__product-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: min(85vw, 38rem);
+  aspect-ratio: 4 / 5;
+  padding: var(--sentinel-space-8);
+}
+
+.hero-sentinel__product-glow {
+  position: absolute;
+  inset: 15% 10%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgb(242 106 33 / 0.28) 0%,
+    rgb(242 106 33 / 0.08) 45%,
+    transparent 72%
+  );
+  filter: blur(2.5rem);
+  pointer-events: none;
 }
 
 .hero-sentinel__helmet {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  max-width: 18rem;
+  max-width: min(72vw, 36rem);
   height: auto;
+  max-height: min(58vh, 34rem);
   object-fit: contain;
-  filter: drop-shadow(0 1rem 3rem rgb(0 0 0 / 0.5));
-}
-
-@media screen and (min-width: 750px) {
-  .hero-sentinel__helmet {
-    max-width: 22rem;
-  }
-}
-
-@media screen and (min-width: 990px) {
-  .hero-sentinel__helmet {
-    max-width: 28rem;
-  }
+  object-position: center;
+  filter: drop-shadow(0 2rem 4rem rgb(0 0 0 / 0.55)) drop-shadow(0 0 4rem rgb(242 106 33 / 0.15));
 }
 
 /* --------------------------------------------------------------------------
-   Entrance animations
+   Scroll indicator
    -------------------------------------------------------------------------- */
 
-.hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__eyebrow,
-.hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__accent,
-.hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__heading,
-.hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__subheading,
-.hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__actions,
-.hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__helmet {
-  opacity: 0;
+.hero-sentinel__scroll {
+  position: absolute;
+  z-index: 4;
+  bottom: var(--sentinel-space-8);
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sentinel-space-2);
+  color: var(--sentinel-color-grey);
+  text-decoration: none;
+  transform: translateX(-50%);
+  transition: color var(--sentinel-transition-fast);
 }
 
-.hero-sentinel--ready .hero-sentinel__eyebrow {
-  animation: hero-sentinel-fade-in var(--sentinel-animation-duration-base) var(--sentinel-ease-out) both;
-  animation-delay: 100ms;
+.hero-sentinel__scroll:hover {
+  color: var(--sentinel-color-white);
 }
 
-.hero-sentinel--ready .hero-sentinel__accent {
-  animation: hero-sentinel-fade-in var(--sentinel-animation-duration-base) var(--sentinel-ease-out) both;
-  animation-delay: 200ms;
+.hero-sentinel__scroll:focus-visible {
+  outline: 2px solid var(--sentinel-color-primary);
+  outline-offset: 4px;
+  border-radius: var(--sentinel-radius-sm);
 }
 
-.hero-sentinel--ready .hero-sentinel__heading {
-  animation: hero-sentinel-fade-in var(--sentinel-animation-duration-slow) var(--sentinel-ease-out) both;
-  animation-delay: 300ms;
+.hero-sentinel__scroll-icon {
+  display: block;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-inline: 1px solid currentcolor;
+  border-block-end: 1px solid currentcolor;
+  transform: rotate(45deg);
+  animation: hero-sentinel-scroll-hint 2s var(--sentinel-ease-in-out) infinite;
 }
 
-.hero-sentinel--ready .hero-sentinel__subheading {
-  animation: hero-sentinel-fade-in var(--sentinel-animation-duration-base) var(--sentinel-ease-out) both;
-  animation-delay: 450ms;
+.hero-sentinel__scroll-label {
+  font-family: var(--sentinel-font-heading-family);
+  font-size: 0.625rem;
+  letter-spacing: var(--sentinel-letter-spacing-widest);
+  text-transform: uppercase;
 }
-
-.hero-sentinel--ready .hero-sentinel__actions {
-  animation: hero-sentinel-fade-up var(--sentinel-animation-duration-slow) var(--sentinel-ease-aggressive) both;
-  animation-delay: 600ms;
-}
-
-.hero-sentinel--ready .hero-sentinel__helmet {
-  animation:
-    hero-sentinel-helmet-enter var(--sentinel-animation-duration-slow) var(--sentinel-ease-aggressive) both,
-    hero-sentinel-float 4s var(--sentinel-ease-in-out) infinite;
-  animation-delay: 400ms, 1200ms;
-}
-
-/* --------------------------------------------------------------------------
-   Reduced motion
-   -------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-sentinel__media-inner {
-    transform: none;
-    will-change: auto;
-  }
-
-  .hero-sentinel--ready .hero-sentinel__eyebrow,
-  .hero-sentinel--ready .hero-sentinel__accent,
-  .hero-sentinel--ready .hero-sentinel__heading,
-  .hero-sentinel--ready .hero-sentinel__subheading,
-  .hero-sentinel--ready .hero-sentinel__actions,
-  .hero-sentinel--ready .hero-sentinel__helmet {
+  .hero-sentinel__scroll-icon {
     animation: none;
-    opacity: 1;
-    transform: none;
   }
-
-  .hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__eyebrow,
-  .hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__accent,
-  .hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__heading,
-  .hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__subheading,
-  .hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__actions,
-  .hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__helmet {
-    opacity: 1;
-  }
-}
-
-.hero-sentinel--reduced-motion .hero-sentinel__media-inner {
-  transform: none;
-  will-change: auto;
-}
-
-.hero-sentinel--reduced-motion.hero-sentinel--ready .hero-sentinel__eyebrow,
-.hero-sentinel--reduced-motion.hero-sentinel--ready .hero-sentinel__accent,
-.hero-sentinel--reduced-motion.hero-sentinel--ready .hero-sentinel__heading,
-.hero-sentinel--reduced-motion.hero-sentinel--ready .hero-sentinel__subheading,
-.hero-sentinel--reduced-motion.hero-sentinel--ready .hero-sentinel__actions,
-.hero-sentinel--reduced-motion.hero-sentinel--ready .hero-sentinel__helmet {
-  animation: none;
-  opacity: 1;
-  transform: none;
 }

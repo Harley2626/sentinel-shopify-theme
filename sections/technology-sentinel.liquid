@@ -3,11 +3,12 @@
 <section
   id="TechnologySentinel-{{ section.id }}"
   class="technology-sentinel full-width"
+  data-motion-section
   aria-label="{{ section.settings.heading | default: 'Technology' | escape }}"
 >
   <div class="sentinel-container sentinel-container--default">
     {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
-      <div class="technology-sentinel__header">
+      <div class="technology-sentinel__header" data-motion-reveal>
         {%- if section.settings.eyebrow != blank -%}
           <p class="sentinel-overline technology-sentinel__eyebrow">{{ section.settings.eyebrow | escape }}</p>
         {%- endif -%}
@@ -18,9 +19,9 @@
       </div>
     {%- endif -%}
 
-    <div class="technology-sentinel__grid">
+    <div class="technology-sentinel__grid" data-motion-stagger>
       {%- for block in section.blocks -%}
-        <article class="sentinel-card technology-sentinel__card" {{ block.shopify_attributes }}>
+        <article class="sentinel-card technology-sentinel__card" data-motion-stagger-item {{ block.shopify_attributes }}>
           {%- if block.settings.title != blank -%}
             <h3 class="technology-sentinel__card-title">{{ block.settings.title | escape }}</h3>
           {%- endif -%}

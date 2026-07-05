@@ -114,11 +114,6 @@
   --sentinel-btn-bg: var(--sentinel-color-primary-hover);
 }
 
-.sentinel-btn:active {
-  --sentinel-btn-bg: var(--sentinel-color-primary-active);
-  transform: scale(0.98);
-}
-
 .sentinel-btn:focus-visible {
   outline: 2px solid var(--sentinel-color-primary);
   outline-offset: 2px;

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="helmet-sheen" x1="120" y1="40" x2="320" y2="400" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2a2a2a"/>
+      <stop offset="0.45" stop-color="#141414"/>
+      <stop offset="1" stop-color="#0a0a0a"/>
+    </linearGradient>
+    <linearGradient id="visor-glow" x1="200" y1="180" x2="280" y2="260" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F26A21" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#F26A21" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- Shell -->
+  <path fill="url(#helmet-sheen)" d="M200 24c-72 0-130 48-138 118-6 52 8 108 38 148 22 30 54 52 100 58 46-6 78-28 100-58 30-40 44-96 38-148C330 72 272 24 200 24Z"/>
+  <!-- Visor -->
+  <path fill="#0d0d0d" stroke="#2a2a2a" stroke-width="2" d="M118 168c8-36 48-62 82-62s74 26 82 62c-18 58-52 88-82 88s-64-30-82-88Z"/>
+  <ellipse cx="228" cy="210" rx="48" ry="32" fill="url(#visor-glow)"/>
+  <!-- Grill lines -->
+  <path stroke="#1f1f1f" stroke-width="3" stroke-linecap="round" d="M148 200h24M172 218h28M196 232h32M220 242h32M244 232h32M268 218h28M292 200h24"/>
+  <!-- Chin -->
+  <path fill="#111" d="M156 300c20 42 48 62 44 88H200c-4-26 28-46 44-88-18 10-38 16-44 16s-26-6-44-16Z"/>
+  <!-- Accent stripe -->
+  <path stroke="#F26A21" stroke-width="2" stroke-opacity="0.35" d="M200 52v48M200 340v56"/>
+</svg>

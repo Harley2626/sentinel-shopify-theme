@@ -55,7 +55,7 @@
         endif
       -%}
 
-      <label class="product-sentinel-option{% if is_selected %} product-sentinel-option--selected{% endif %}">
+      <label class="product-sentinel-option{% if is_selected %} product-sentinel-option--selected{% endif %}{% if show_badge %} product-sentinel-option--premium{% endif %}"{% if show_badge %} data-motion-premium-option{% endif %}>
         <input
           type="radio"
           class="product-sentinel-option__input sentinel-visually-hidden"

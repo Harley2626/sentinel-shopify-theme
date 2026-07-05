@@ -4,36 +4,6 @@
  */
 
 /* --------------------------------------------------------------------------
-   Keyframes
-   -------------------------------------------------------------------------- */
-
-@keyframes header-sentinel-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(-0.5rem);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes header-sentinel-icon-pop {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.15);
-  }
-
-  100% {
-    transform: scale(1.08);
-  }
-}
-
-/* --------------------------------------------------------------------------
    Header shell
    -------------------------------------------------------------------------- */
 
@@ -62,10 +32,6 @@
   top: 0;
   left: 0;
   right: 0;
-}
-
-.header-sentinel--ready {
-  animation: header-sentinel-fade-in var(--sentinel-animation-duration-base) var(--sentinel-ease-out) both;
 }
 
 .header-sentinel--transparent:not(.header-sentinel--scrolled) {
@@ -295,7 +261,6 @@
 
 .header-sentinel__icon-btn:hover {
   color: var(--sentinel-color-primary);
-  animation: header-sentinel-icon-pop var(--sentinel-duration-fast) var(--sentinel-ease-out);
 }
 
 .header-sentinel__icon-btn:focus-visible {
