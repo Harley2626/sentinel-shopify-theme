@@ -1,0 +1,387 @@
+/**
+ * Sentinel Hero Section
+ * Premium full-screen hero with parallax, video, and entrance animations.
+ */
+
+/* --------------------------------------------------------------------------
+   Keyframes
+   -------------------------------------------------------------------------- */
+
+@keyframes hero-sentinel-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-1rem);
+  }
+}
+
+@keyframes hero-sentinel-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-sentinel-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hero-sentinel-helmet-enter {
+  from {
+    opacity: 0;
+    transform: translateY(2rem) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Section shell
+   -------------------------------------------------------------------------- */
+
+.hero-sentinel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: var(--hero-height-mobile, 80vh);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+@media screen and (min-width: 750px) {
+  .hero-sentinel {
+    min-height: var(--hero-height-desktop, 100vh);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Background media
+   -------------------------------------------------------------------------- */
+
+.hero-sentinel__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero-sentinel__media-inner {
+  position: absolute;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  will-change: transform;
+  transform: translate3d(0, var(--hero-parallax-y, 0), 0);
+}
+
+.hero-sentinel__image,
+.hero-sentinel__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-sentinel__video {
+  display: block;
+}
+
+.hero-sentinel__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-color: var(--sentinel-color-background);
+  opacity: var(--hero-overlay-opacity, 0.6);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Content layout
+   -------------------------------------------------------------------------- */
+
+.hero-sentinel__container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin-inline: auto;
+  padding-block: var(--sentinel-space-12);
+  padding-inline: var(--page-margin);
+}
+
+.hero-sentinel__container--narrow {
+  max-width: var(--sentinel-container-narrow);
+}
+
+.hero-sentinel__container--default {
+  max-width: var(--sentinel-container-default);
+}
+
+.hero-sentinel__container--wide {
+  max-width: var(--sentinel-container-wide);
+}
+
+.hero-sentinel__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sentinel-space-10);
+  align-items: center;
+}
+
+@media screen and (min-width: 990px) {
+  .hero-sentinel__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sentinel-space-16);
+  }
+
+  .hero-sentinel__grid--no-visual {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hero-sentinel__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 36rem;
+}
+
+.hero-sentinel--align-center .hero-sentinel__content {
+  margin-inline: auto;
+  text-align: center;
+  align-items: center;
+}
+
+.hero-sentinel--align-right .hero-sentinel__content {
+  margin-inline-start: auto;
+  text-align: right;
+  align-items: flex-end;
+}
+
+@media screen and (min-width: 990px) {
+  .hero-sentinel--align-center .hero-sentinel__content {
+    max-width: 42rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Typography
+   -------------------------------------------------------------------------- */
+
+.hero-sentinel__eyebrow {
+  margin-block-end: var(--sentinel-space-3);
+}
+
+.hero-sentinel__accent {
+  display: block;
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3px;
+  margin-block: var(--sentinel-space-4) var(--sentinel-space-6);
+  background-color: var(--sentinel-color-primary);
+}
+
+.hero-sentinel--align-center .hero-sentinel__accent {
+  margin-inline: auto;
+}
+
+.hero-sentinel--align-right .hero-sentinel__accent {
+  margin-inline-start: auto;
+}
+
+.hero-sentinel__heading {
+  margin-block-end: var(--sentinel-space-6);
+  font-size: clamp(2.5rem, 8vw, var(--sentinel-font-size-5xl));
+  line-height: var(--sentinel-line-height-tight);
+  letter-spacing: var(--sentinel-letter-spacing-widest);
+}
+
+.hero-sentinel__subheading {
+  margin-block-end: var(--sentinel-space-8);
+  max-width: 32rem;
+  color: var(--sentinel-color-grey);
+}
+
+.hero-sentinel--align-center .hero-sentinel__subheading {
+  margin-inline: auto;
+}
+
+.hero-sentinel--align-right .hero-sentinel__subheading {
+  margin-inline-start: auto;
+}
+
+/* --------------------------------------------------------------------------
+   Actions
+   -------------------------------------------------------------------------- */
+
+.hero-sentinel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sentinel-space-4);
+}
+
+.hero-sentinel--align-center .hero-sentinel__actions {
+  justify-content: center;
+}
+
+.hero-sentinel--align-right .hero-sentinel__actions {
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 749px) {
+  .hero-sentinel__actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-sentinel__actions .sentinel-btn {
+    width: 100%;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Helmet visual
+   -------------------------------------------------------------------------- */
+
+.hero-sentinel__visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  order: -1;
+}
+
+@media screen and (min-width: 990px) {
+  .hero-sentinel__visual {
+    order: 0;
+    justify-content: flex-end;
+  }
+}
+
+.hero-sentinel__helmet {
+  width: 100%;
+  max-width: 18rem;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 1rem 3rem rgb(0 0 0 / 0.5));
+}
+
+@media screen and (min-width: 750px) {
+  .hero-sentinel__helmet {
+    max-width: 22rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .hero-sentinel__helmet {
+    max-width: 28rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Entrance animations
+   -------------------------------------------------------------------------- */
+
+.hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__eyebrow,
+.hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__accent,
+.hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__heading,
+.hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__subheading,
+.hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__actions,
+.hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__helmet {
+  opacity: 0;
+}
+
+.hero-sentinel--ready .hero-sentinel__eyebrow {
+  animation: hero-sentinel-fade-in var(--sentinel-animation-duration-base) var(--sentinel-ease-out) both;
+  animation-delay: 100ms;
+}
+
+.hero-sentinel--ready .hero-sentinel__accent {
+  animation: hero-sentinel-fade-in var(--sentinel-animation-duration-base) var(--sentinel-ease-out) both;
+  animation-delay: 200ms;
+}
+
+.hero-sentinel--ready .hero-sentinel__heading {
+  animation: hero-sentinel-fade-in var(--sentinel-animation-duration-slow) var(--sentinel-ease-out) both;
+  animation-delay: 300ms;
+}
+
+.hero-sentinel--ready .hero-sentinel__subheading {
+  animation: hero-sentinel-fade-in var(--sentinel-animation-duration-base) var(--sentinel-ease-out) both;
+  animation-delay: 450ms;
+}
+
+.hero-sentinel--ready .hero-sentinel__actions {
+  animation: hero-sentinel-fade-up var(--sentinel-animation-duration-slow) var(--sentinel-ease-aggressive) both;
+  animation-delay: 600ms;
+}
+
+.hero-sentinel--ready .hero-sentinel__helmet {
+  animation:
+    hero-sentinel-helmet-enter var(--sentinel-animation-duration-slow) var(--sentinel-ease-aggressive) both,
+    hero-sentinel-float 4s var(--sentinel-ease-in-out) infinite;
+  animation-delay: 400ms, 1200ms;
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-sentinel__media-inner {
+    transform: none;
+    will-change: auto;
+  }
+
+  .hero-sentinel--ready .hero-sentinel__eyebrow,
+  .hero-sentinel--ready .hero-sentinel__accent,
+  .hero-sentinel--ready .hero-sentinel__heading,
+  .hero-sentinel--ready .hero-sentinel__subheading,
+  .hero-sentinel--ready .hero-sentinel__actions,
+  .hero-sentinel--ready .hero-sentinel__helmet {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__eyebrow,
+  .hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__accent,
+  .hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__heading,
+  .hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__subheading,
+  .hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__actions,
+  .hero-sentinel:not(.hero-sentinel--ready) .hero-sentinel__helmet {
+    opacity: 1;
+  }
+}
+
+.hero-sentinel--reduced-motion .hero-sentinel__media-inner {
+  transform: none;
+  will-change: auto;
+}
+
+.hero-sentinel--reduced-motion.hero-sentinel--ready .hero-sentinel__eyebrow,
+.hero-sentinel--reduced-motion.hero-sentinel--ready .hero-sentinel__accent,
+.hero-sentinel--reduced-motion.hero-sentinel--ready .hero-sentinel__heading,
+.hero-sentinel--reduced-motion.hero-sentinel--ready .hero-sentinel__subheading,
+.hero-sentinel--reduced-motion.hero-sentinel--ready .hero-sentinel__actions,
+.hero-sentinel--reduced-motion.hero-sentinel--ready .hero-sentinel__helmet {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
