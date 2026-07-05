@@ -1,0 +1,146 @@
+/**
+ * Sentinel Design System — Typography
+ * Mobile-first type scale. Headings: Bebas Neue. Body: Inter.
+ */
+
+body {
+  font-family: var(--sentinel-font-body-family);
+  font-style: var(--sentinel-font-body-style);
+  font-weight: var(--sentinel-font-body-weight);
+  font-size: var(--sentinel-font-size-base);
+  line-height: var(--sentinel-line-height-normal);
+  letter-spacing: var(--sentinel-letter-spacing-normal);
+  color: var(--sentinel-color-foreground);
+  background-color: var(--sentinel-color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.sentinel-heading,
+h1.sentinel-heading,
+h2.sentinel-heading,
+h3.sentinel-heading,
+h4.sentinel-heading,
+h5.sentinel-heading,
+h6.sentinel-heading {
+  font-family: var(--sentinel-font-heading-family);
+  font-style: var(--sentinel-font-heading-style);
+  font-weight: var(--sentinel-font-heading-weight);
+  line-height: var(--sentinel-line-height-tight);
+  letter-spacing: var(--sentinel-letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--sentinel-color-foreground);
+}
+
+.sentinel-display {
+  font-size: var(--sentinel-font-size-3xl);
+  letter-spacing: var(--sentinel-letter-spacing-widest);
+}
+
+.sentinel-h1 {
+  font-size: var(--sentinel-font-size-2xl);
+}
+
+.sentinel-h2 {
+  font-size: var(--sentinel-font-size-xl);
+}
+
+.sentinel-h3 {
+  font-size: var(--sentinel-font-size-lg);
+}
+
+.sentinel-h4 {
+  font-size: var(--sentinel-font-size-md);
+}
+
+.sentinel-h5 {
+  font-size: var(--sentinel-font-size-base);
+}
+
+.sentinel-h6 {
+  font-size: var(--sentinel-font-size-sm);
+}
+
+.sentinel-body-lg {
+  font-size: var(--sentinel-font-size-md);
+  line-height: var(--sentinel-line-height-relaxed);
+}
+
+.sentinel-body {
+  font-size: var(--sentinel-font-size-base);
+  line-height: var(--sentinel-line-height-normal);
+}
+
+.sentinel-body-sm {
+  font-size: var(--sentinel-font-size-sm);
+  line-height: var(--sentinel-line-height-normal);
+}
+
+.sentinel-caption {
+  font-size: var(--sentinel-font-size-xs);
+  line-height: var(--sentinel-line-height-normal);
+  letter-spacing: var(--sentinel-letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--sentinel-color-muted);
+}
+
+.sentinel-overline {
+  font-size: var(--sentinel-font-size-xs);
+  line-height: var(--sentinel-line-height-snug);
+  letter-spacing: var(--sentinel-letter-spacing-widest);
+  text-transform: uppercase;
+  color: var(--sentinel-color-primary);
+}
+
+.sentinel-text-muted {
+  color: var(--sentinel-color-muted);
+}
+
+.sentinel-text-primary {
+  color: var(--sentinel-color-primary);
+}
+
+.sentinel-text-white {
+  color: var(--sentinel-color-white);
+}
+
+.sentinel-text-center {
+  text-align: center;
+}
+
+.sentinel-text-left {
+  text-align: left;
+}
+
+.sentinel-text-right {
+  text-align: right;
+}
+
+@media screen and (min-width: 750px) {
+  .sentinel-display {
+    font-size: var(--sentinel-font-size-4xl);
+  }
+
+  .sentinel-h1 {
+    font-size: var(--sentinel-font-size-3xl);
+  }
+
+  .sentinel-h2 {
+    font-size: var(--sentinel-font-size-2xl);
+  }
+
+  .sentinel-h3 {
+    font-size: var(--sentinel-font-size-xl);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .sentinel-display {
+    font-size: var(--sentinel-font-size-5xl);
+  }
+
+  .sentinel-h1 {
+    font-size: var(--sentinel-font-size-4xl);
+  }
+}

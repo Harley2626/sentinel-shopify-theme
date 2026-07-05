@@ -72,6 +72,46 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
+    }
+  },
+  "sentinel": {
+    "name": "Sentinel design system",
+    "legacy_typography_note": "Legacy skeleton typography. Sentinel uses the fonts configured in the Sentinel design system group above.",
+    "legacy_layout_note": "Legacy skeleton layout. Sentinel container widths are configured in the Sentinel design system group above.",
+    "legacy_colors_note": "Legacy skeleton colors. Sentinel brand colors are configured in the Sentinel design system group above.",
+    "colors": {
+      "header": "Brand colors",
+      "background": "Background",
+      "surface": "Surface",
+      "card": "Card",
+      "primary": "Primary orange",
+      "white": "White",
+      "grey": "Grey"
     },
+    "typography": {
+      "header": "Typography",
+      "heading": "Heading font",
+      "body": "Body font"
+    },
+    "layout": {
+      "header": "Containers",
+      "container_narrow": "Narrow container",
+      "container_default": "Default container",
+      "container_wide": "Wide container",
+      "container_max": "Maximum container"
+    },
+    "radius": {
+      "header": "Border radius",
+      "sm": "Small",
+      "md": "Medium",
+      "lg": "Large",
+      "xl": "Extra large"
+    },
+    "animation": {
+      "header": "Animation",
+      "duration_fast": "Fast duration",
+      "duration_base": "Base duration",
+      "duration_slow": "Slow duration"
+    }
   }
 }

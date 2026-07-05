@@ -1,0 +1,78 @@
+{% doc %}
+  Renders a Sentinel design system button.
+
+  @param {string} label - Button text (required)
+  @param {string} [type] - HTML button type: button, submit, reset (default: button)
+  @param {string} [variant] - Style variant: primary, secondary, ghost, surface (default: primary)
+  @param {string} [size] - Size: sm, md, lg (default: md)
+  @param {string} [url] - If provided, renders an anchor instead of a button
+  @param {boolean} [full_width] - Stretch to container width
+  @param {boolean} [disabled] - Disabled state
+  @param {string} [class] - Additional CSS classes
+  @param {string} [aria_label] - Accessible label override
+  @param {string} [id] - Element ID
+
+  @example
+  {% render 'sentinel-button', label: 'Shop now', url: collection.url %}
+  {% render 'sentinel-button', label: 'Add to cart', type: 'submit', variant: 'primary' %}
+{% enddoc %}
+
+{%- liquid
+  assign btn_type = type | default: 'button'
+  assign btn_variant = variant | default: 'primary'
+  assign btn_size = size | default: 'md'
+  assign btn_class = 'sentinel-btn sentinel-btn--' | append: btn_variant
+
+  if btn_size != 'md'
+    assign btn_class = btn_class | append: ' sentinel-btn--' | append: btn_size
+  endif
+
+  if full_width
+    assign btn_class = btn_class | append: ' sentinel-btn--full'
+  endif
+
+  if class != blank
+    assign btn_class = btn_class | append: ' ' | append: class
+  endif
+
+  assign is_disabled = false
+  if disabled
+    assign is_disabled = true
+  endif
+-%}
+
+{%- if url != blank -%}
+  <a
+    href="{{ url }}"
+    class="{{ btn_class }}"
+    {% if aria_label != blank %}
+      aria-label="{{ aria_label | escape }}"
+    {% endif %}
+    {% if id != blank %}
+      id="{{ id | escape }}"
+    {% endif %}
+    {% if is_disabled %}
+      aria-disabled="true"
+      tabindex="-1"
+    {% endif %}
+  >
+    {{ label | escape }}
+  </a>
+{%- else -%}
+  <button
+    type="{{ btn_type }}"
+    class="{{ btn_class }}"
+    {% if aria_label != blank %}
+      aria-label="{{ aria_label | escape }}"
+    {% endif %}
+    {% if id != blank %}
+      id="{{ id | escape }}"
+    {% endif %}
+    {% if is_disabled %}
+      disabled
+      aria-disabled="true"
+    {% endif %}
+  >
+    {{ label | escape }}
+  </button>
+{%- endif -%}

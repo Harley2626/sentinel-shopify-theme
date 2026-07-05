@@ -1,0 +1,159 @@
+{% doc %}
+  Outputs Sentinel design system CSS custom properties wired to Theme Editor settings.
+  Rendered in layout files before Sentinel stylesheets load.
+
+  @example
+  {% render 'sentinel-css-variables' %}
+{% enddoc %}
+
+{% style %}
+  {%- liquid
+    assign heading_font = settings.sentinel_font_heading
+    assign body_font = settings.sentinel_font_body
+  -%}
+
+  {{ heading_font | font_face: font_display: 'swap' }}
+  {{ heading_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ body_font | font_face: font_display: 'swap' }}
+  {{ body_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ body_font | font_modify: 'weight', '500' | font_face: font_display: 'swap' }}
+  {{ body_font | font_modify: 'weight', '600' | font_face: font_display: 'swap' }}
+
+  :root {
+    /* Brand colors */
+    --sentinel-color-background: {{ settings.sentinel_color_background }};
+    --sentinel-color-surface: {{ settings.sentinel_color_surface }};
+    --sentinel-color-card: {{ settings.sentinel_color_card }};
+    --sentinel-color-primary: {{ settings.sentinel_color_primary }};
+    --sentinel-color-white: {{ settings.sentinel_color_white }};
+    --sentinel-color-grey: {{ settings.sentinel_color_grey }};
+
+    /* Semantic aliases */
+    --sentinel-color-foreground: var(--sentinel-color-white);
+    --sentinel-color-muted: var(--sentinel-color-grey);
+    --sentinel-color-border: {{ settings.sentinel_color_surface | color_mix: settings.sentinel_color_grey, 25 }};
+    --sentinel-color-border-subtle: {{ settings.sentinel_color_surface | color_mix: settings.sentinel_color_card, 50 }};
+    --sentinel-color-primary-hover: {{ settings.sentinel_color_primary | color_darken: 8 }};
+    --sentinel-color-primary-active: {{ settings.sentinel_color_primary | color_darken: 14 }};
+    --sentinel-color-focus-ring: {{ settings.sentinel_color_primary | color_modify: 'alpha', 0.45 }};
+
+    /* Legacy skeleton variable bridge */
+    --color-background: var(--sentinel-color-background);
+    --color-foreground: var(--sentinel-color-foreground);
+
+    /* Typography */
+    --sentinel-font-heading-family: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+    --sentinel-font-heading-style: {{ heading_font.style }};
+    --sentinel-font-heading-weight: {{ heading_font.weight }};
+    --sentinel-font-body-family: {{ body_font.family }}, {{ body_font.fallback_families }};
+    --sentinel-font-body-style: {{ body_font.style }};
+    --sentinel-font-body-weight: {{ body_font.weight }};
+
+    --sentinel-font-size-xs: 0.75rem;
+    --sentinel-font-size-sm: 0.875rem;
+    --sentinel-font-size-base: 1rem;
+    --sentinel-font-size-md: 1.125rem;
+    --sentinel-font-size-lg: 1.25rem;
+    --sentinel-font-size-xl: 1.5rem;
+    --sentinel-font-size-2xl: 2rem;
+    --sentinel-font-size-3xl: 2.5rem;
+    --sentinel-font-size-4xl: 3.5rem;
+    --sentinel-font-size-5xl: 4.5rem;
+
+    --sentinel-line-height-tight: 1;
+    --sentinel-line-height-snug: 1.15;
+    --sentinel-line-height-normal: 1.5;
+    --sentinel-line-height-relaxed: 1.65;
+
+    --sentinel-letter-spacing-tight: -0.02em;
+    --sentinel-letter-spacing-normal: 0;
+    --sentinel-letter-spacing-wide: 0.04em;
+    --sentinel-letter-spacing-wider: 0.08em;
+    --sentinel-letter-spacing-widest: 0.12em;
+
+    /* Spacing scale (4px base) */
+    --sentinel-space-0: 0;
+    --sentinel-space-1: 0.25rem;
+    --sentinel-space-2: 0.5rem;
+    --sentinel-space-3: 0.75rem;
+    --sentinel-space-4: 1rem;
+    --sentinel-space-5: 1.25rem;
+    --sentinel-space-6: 1.5rem;
+    --sentinel-space-8: 2rem;
+    --sentinel-space-10: 2.5rem;
+    --sentinel-space-12: 3rem;
+    --sentinel-space-16: 4rem;
+    --sentinel-space-20: 5rem;
+    --sentinel-space-24: 6rem;
+    --sentinel-space-32: 8rem;
+
+    /* Container widths */
+    --sentinel-container-narrow: {{ settings.sentinel_container_narrow }}rem;
+    --sentinel-container-default: {{ settings.sentinel_container_default }}rem;
+    --sentinel-container-wide: {{ settings.sentinel_container_wide }}rem;
+    --sentinel-container-max: {{ settings.sentinel_container_max }}rem;
+    --page-width: var(--sentinel-container-default);
+    --page-margin: {{ settings.min_page_margin }}px;
+
+    /* Border radius */
+    --sentinel-radius-none: 0;
+    --sentinel-radius-sm: {{ settings.sentinel_radius_sm }}px;
+    --sentinel-radius-md: {{ settings.sentinel_radius_md }}px;
+    --sentinel-radius-lg: {{ settings.sentinel_radius_lg }}px;
+    --sentinel-radius-xl: {{ settings.sentinel_radius_xl }}px;
+    --sentinel-radius-full: 9999px;
+    --style-border-radius-inputs: var(--sentinel-radius-md);
+
+    /* Shadows */
+    --sentinel-shadow-none: none;
+    --sentinel-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.5);
+    --sentinel-shadow-md: 0 4px 12px rgb(0 0 0 / 0.4);
+    --sentinel-shadow-lg: 0 8px 24px rgb(0 0 0 / 0.5);
+    --sentinel-shadow-xl: 0 16px 48px rgb(0 0 0 / 0.55);
+    --sentinel-shadow-glow: 0 0 24px {{ settings.sentinel_color_primary | color_modify: 'alpha', 0.2 }};
+    --sentinel-shadow-inset: inset 0 1px 0 rgb(255 255 255 / 0.04);
+
+    /* Transitions */
+    --sentinel-duration-instant: 100ms;
+    --sentinel-duration-fast: 150ms;
+    --sentinel-duration-base: 250ms;
+    --sentinel-duration-slow: 400ms;
+    --sentinel-duration-slower: 600ms;
+
+    --sentinel-ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+    --sentinel-ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --sentinel-ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --sentinel-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --sentinel-ease-aggressive: cubic-bezier(0.16, 1, 0.3, 1);
+
+    --sentinel-transition-fast: var(--sentinel-duration-fast) var(--sentinel-ease-default);
+    --sentinel-transition-base: var(--sentinel-duration-base) var(--sentinel-ease-default);
+    --sentinel-transition-slow: var(--sentinel-duration-slow) var(--sentinel-ease-aggressive);
+    --sentinel-transition-color: color var(--sentinel-duration-fast) var(--sentinel-ease-default),
+      background-color var(--sentinel-duration-fast) var(--sentinel-ease-default),
+      border-color var(--sentinel-duration-fast) var(--sentinel-ease-default);
+    --sentinel-transition-transform: transform var(--sentinel-duration-base) var(--sentinel-ease-aggressive);
+    --sentinel-transition-opacity: opacity var(--sentinel-duration-base) var(--sentinel-ease-default);
+    --sentinel-transition-shadow: box-shadow var(--sentinel-duration-base) var(--sentinel-ease-default);
+
+    /* Animation */
+    --sentinel-animation-duration-fast: {{ settings.sentinel_animation_duration_fast }}ms;
+    --sentinel-animation-duration-base: {{ settings.sentinel_animation_duration_base }}ms;
+    --sentinel-animation-duration-slow: {{ settings.sentinel_animation_duration_slow }}ms;
+    --sentinel-animation-stagger: 80ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --sentinel-duration-instant: 0ms;
+      --sentinel-duration-fast: 0ms;
+      --sentinel-duration-base: 0ms;
+      --sentinel-duration-slow: 0ms;
+      --sentinel-duration-slower: 0ms;
+      --sentinel-animation-duration-fast: 0ms;
+      --sentinel-animation-duration-base: 0ms;
+      --sentinel-animation-duration-slow: 0ms;
+      --sentinel-animation-stagger: 0ms;
+    }
+  }
+{% endstyle %}

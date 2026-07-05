@@ -1,0 +1,170 @@
+/**
+ * Sentinel Design System — Layout
+ * Container widths, spacing utilities, grid helpers.
+ */
+
+.sentinel-container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--page-margin);
+}
+
+.sentinel-container--narrow {
+  max-width: var(--sentinel-container-narrow);
+}
+
+.sentinel-container--default {
+  max-width: var(--sentinel-container-default);
+}
+
+.sentinel-container--wide {
+  max-width: var(--sentinel-container-wide);
+}
+
+.sentinel-container--max {
+  max-width: var(--sentinel-container-max);
+}
+
+.sentinel-container--flush {
+  padding-inline: 0;
+}
+
+.sentinel-section {
+  padding-block: var(--sentinel-space-12);
+}
+
+.sentinel-section--compact {
+  padding-block: var(--sentinel-space-8);
+}
+
+.sentinel-section--spacious {
+  padding-block: var(--sentinel-space-20);
+}
+
+.sentinel-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sentinel-stack-gap, var(--sentinel-space-4));
+}
+
+.sentinel-stack--sm {
+  --sentinel-stack-gap: var(--sentinel-space-2);
+}
+
+.sentinel-stack--md {
+  --sentinel-stack-gap: var(--sentinel-space-4);
+}
+
+.sentinel-stack--lg {
+  --sentinel-stack-gap: var(--sentinel-space-8);
+}
+
+.sentinel-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sentinel-cluster-gap, var(--sentinel-space-4));
+}
+
+.sentinel-cluster--sm {
+  --sentinel-cluster-gap: var(--sentinel-space-2);
+}
+
+.sentinel-cluster--lg {
+  --sentinel-cluster-gap: var(--sentinel-space-6);
+}
+
+.sentinel-grid {
+  display: grid;
+  gap: var(--sentinel-grid-gap, var(--sentinel-space-4));
+  grid-template-columns: repeat(var(--sentinel-grid-columns, 1), minmax(0, 1fr));
+}
+
+.sentinel-grid--2 {
+  --sentinel-grid-columns: 2;
+}
+
+.sentinel-grid--3 {
+  --sentinel-grid-columns: 3;
+}
+
+.sentinel-grid--4 {
+  --sentinel-grid-columns: 4;
+}
+
+@media screen and (min-width: 750px) {
+  .sentinel-section {
+    padding-block: var(--sentinel-space-16);
+  }
+
+  .sentinel-section--compact {
+    padding-block: var(--sentinel-space-10);
+  }
+
+  .sentinel-section--spacious {
+    padding-block: var(--sentinel-space-24);
+  }
+
+  .sentinel-grid--md-2 {
+    --sentinel-grid-columns: 2;
+  }
+
+  .sentinel-grid--md-3 {
+    --sentinel-grid-columns: 3;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .sentinel-grid--lg-3 {
+    --sentinel-grid-columns: 3;
+  }
+
+  .sentinel-grid--lg-4 {
+    --sentinel-grid-columns: 4;
+  }
+}
+
+/* Spacing utilities */
+.sentinel-m-0 { margin: var(--sentinel-space-0); }
+.sentinel-mt-4 { margin-block-start: var(--sentinel-space-4); }
+.sentinel-mt-8 { margin-block-start: var(--sentinel-space-8); }
+.sentinel-mb-4 { margin-block-end: var(--sentinel-space-4); }
+.sentinel-mb-8 { margin-block-end: var(--sentinel-space-8); }
+.sentinel-p-4 { padding: var(--sentinel-space-4); }
+.sentinel-p-6 { padding: var(--sentinel-space-6); }
+.sentinel-p-8 { padding: var(--sentinel-space-8); }
+.sentinel-px-4 { padding-inline: var(--sentinel-space-4); }
+.sentinel-py-4 { padding-block: var(--sentinel-space-4); }
+.sentinel-py-8 { padding-block: var(--sentinel-space-8); }
+
+/* Surface backgrounds */
+.sentinel-bg-background { background-color: var(--sentinel-color-background); }
+.sentinel-bg-surface { background-color: var(--sentinel-color-surface); }
+.sentinel-bg-card { background-color: var(--sentinel-color-card); }
+.sentinel-bg-primary { background-color: var(--sentinel-color-primary); }
+
+/* Dividers */
+.sentinel-divider {
+  border: 0;
+  border-block-start: 1px solid var(--sentinel-color-border-subtle);
+  margin-block: var(--sentinel-space-8);
+}
+
+/* Visually hidden — accessibility */
+.sentinel-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus ring utility */
+.sentinel-focus-ring:focus-visible {
+  outline: 2px solid var(--sentinel-color-primary);
+  outline-offset: 2px;
+}

@@ -1,15 +1,212 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Skeleton",
+    "theme_name": "Sentinel",
     "theme_version": "0.1.0",
-    "theme_author": "Shopify",
+    "theme_author": "Sentinel Cricket",
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
     "theme_support_url": "https://support.shopify.com/"
   },
   {
+    "name": "t:sentinel.name",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:sentinel.colors.header"
+      },
+      {
+        "type": "color",
+        "id": "sentinel_color_background",
+        "label": "t:sentinel.colors.background",
+        "default": "#050505"
+      },
+      {
+        "type": "color",
+        "id": "sentinel_color_surface",
+        "label": "t:sentinel.colors.surface",
+        "default": "#101010"
+      },
+      {
+        "type": "color",
+        "id": "sentinel_color_card",
+        "label": "t:sentinel.colors.card",
+        "default": "#171717"
+      },
+      {
+        "type": "color",
+        "id": "sentinel_color_primary",
+        "label": "t:sentinel.colors.primary",
+        "default": "#F26A21"
+      },
+      {
+        "type": "color",
+        "id": "sentinel_color_white",
+        "label": "t:sentinel.colors.white",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "sentinel_color_grey",
+        "label": "t:sentinel.colors.grey",
+        "default": "#A8A8A8"
+      },
+      {
+        "type": "header",
+        "content": "t:sentinel.typography.header"
+      },
+      {
+        "type": "font_picker",
+        "id": "sentinel_font_heading",
+        "label": "t:sentinel.typography.heading",
+        "default": "bebas_neue_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "sentinel_font_body",
+        "label": "t:sentinel.typography.body",
+        "default": "inter_n4"
+      },
+      {
+        "type": "header",
+        "content": "t:sentinel.layout.header"
+      },
+      {
+        "type": "range",
+        "id": "sentinel_container_narrow",
+        "label": "t:sentinel.layout.container_narrow",
+        "min": 30,
+        "max": 60,
+        "step": 1,
+        "unit": "rem",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "sentinel_container_default",
+        "label": "t:sentinel.layout.container_default",
+        "min": 60,
+        "max": 100,
+        "step": 1,
+        "unit": "rem",
+        "default": 75
+      },
+      {
+        "type": "range",
+        "id": "sentinel_container_wide",
+        "label": "t:sentinel.layout.container_wide",
+        "min": 80,
+        "max": 120,
+        "step": 1,
+        "unit": "rem",
+        "default": 90
+      },
+      {
+        "type": "range",
+        "id": "sentinel_container_max",
+        "label": "t:sentinel.layout.container_max",
+        "min": 100,
+        "max": 160,
+        "step": 1,
+        "unit": "rem",
+        "default": 120
+      },
+      {
+        "type": "range",
+        "id": "min_page_margin",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "t:labels.page_margin",
+        "default": 20
+      },
+      {
+        "type": "header",
+        "content": "t:sentinel.radius.header"
+      },
+      {
+        "type": "range",
+        "id": "sentinel_radius_sm",
+        "label": "t:sentinel.radius.sm",
+        "min": 0,
+        "max": 8,
+        "step": 1,
+        "unit": "px",
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "sentinel_radius_md",
+        "label": "t:sentinel.radius.md",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "unit": "px",
+        "default": 4
+      },
+      {
+        "type": "range",
+        "id": "sentinel_radius_lg",
+        "label": "t:sentinel.radius.lg",
+        "min": 0,
+        "max": 16,
+        "step": 1,
+        "unit": "px",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "sentinel_radius_xl",
+        "label": "t:sentinel.radius.xl",
+        "min": 0,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "default": 12
+      },
+      {
+        "type": "header",
+        "content": "t:sentinel.animation.header"
+      },
+      {
+        "type": "range",
+        "id": "sentinel_animation_duration_fast",
+        "label": "t:sentinel.animation.duration_fast",
+        "min": 0,
+        "max": 500,
+        "step": 50,
+        "unit": "ms",
+        "default": 150
+      },
+      {
+        "type": "range",
+        "id": "sentinel_animation_duration_base",
+        "label": "t:sentinel.animation.duration_base",
+        "min": 0,
+        "max": 800,
+        "step": 50,
+        "unit": "ms",
+        "default": 250
+      },
+      {
+        "type": "range",
+        "id": "sentinel_animation_duration_slow",
+        "label": "t:sentinel.animation.duration_slow",
+        "min": 0,
+        "max": 1200,
+        "step": 50,
+        "unit": "ms",
+        "default": 400
+      }
+    ]
+  },
+  {
     "name": "t:general.typography",
     "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:sentinel.legacy_typography_note"
+      },
       {
         "type": "header",
         "content": "t:general.fonts"
@@ -17,7 +214,7 @@
       {
         "type": "font_picker",
         "id": "type_primary_font",
-        "default": "work_sans_n4",
+        "default": "inter_n4",
         "label": "t:general.primary"
       }
     ]
@@ -25,6 +222,10 @@
   {
     "name": "t:general.layout",
     "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:sentinel.legacy_layout_note"
+      },
       {
         "type": "select",
         "id": "max_page_width",
@@ -40,16 +241,6 @@
           }
         ],
         "default": "90rem"
-      },
-      {
-        "type": "range",
-        "id": "min_page_margin",
-        "min": 10,
-        "max": 100,
-        "step": 1,
-        "unit": "px",
-        "label": "t:labels.page_margin",
-        "default": 20
       }
     ]
   },
@@ -57,15 +248,19 @@
     "name": "t:general.colors",
     "settings": [
       {
+        "type": "paragraph",
+        "content": "t:sentinel.legacy_colors_note"
+      },
+      {
         "type": "color",
         "id": "background_color",
-        "default": "#FFFFFF",
+        "default": "#050505",
         "label": "t:labels.background"
       },
       {
         "type": "color",
         "id": "foreground_color",
-        "default": "#333333",
+        "default": "#FFFFFF",
         "label": "t:labels.foreground"
       },
       {

@@ -1,0 +1,76 @@
+{% doc %}
+  Renders a Sentinel design system card container.
+
+  @param {string} [variant] - Card style: default, surface, elevated, bordered, interactive, accent (default: default)
+  @param {string} [size] - Padding size: default, compact, spacious (default: default)
+  @param {string} [title] - Card heading text
+  @param {string} [subtitle] - Card subheading text
+  @param {string} [body] - Card body content (supports HTML)
+  @param {image} [image] - Optional media image
+  @param {string} [url] - If provided with interactive variant, wraps card in a link
+  @param {string} [class] - Additional CSS classes
+  @param {string} [id] - Element ID
+
+  @example
+  {% render 'sentinel-card',
+    title: 'Precision engineered',
+    body: '<p>Built for performance.</p>',
+    variant: 'elevated'
+  %}
+{% enddoc %}
+
+{%- liquid
+  assign card_variant = variant | default: 'default'
+  assign card_size = size | default: 'default'
+  assign card_class = 'sentinel-card'
+
+  unless card_variant == 'default'
+    assign card_class = card_class | append: ' sentinel-card--' | append: card_variant
+  endunless
+
+  unless card_size == 'default'
+    assign card_class = card_class | append: ' sentinel-card--' | append: card_size
+  endunless
+
+  if class != blank
+    assign card_class = card_class | append: ' ' | append: class
+  endif
+
+  assign wrapper_tag = 'div'
+  if url != blank and card_variant == 'interactive'
+    assign wrapper_tag = 'a'
+  endif
+-%}
+
+<{{ wrapper_tag }}
+  class="{{ card_class }}"
+  {% if wrapper_tag == 'a' %}
+    href="{{ url }}"
+  {% endif %}
+  {% if id != blank %}
+    id="{{ id | escape }}"
+  {% endif %}
+>
+  {%- if image != blank -%}
+    <div class="sentinel-card__media">
+      {{ image | image_url: width: 800 | image_tag: loading: 'lazy', alt: image.alt }}
+    </div>
+  {%- endif -%}
+
+  {%- if title != blank or subtitle != blank -%}
+    <div class="sentinel-card__header">
+      {%- if title != blank -%}
+        <h3 class="sentinel-card__title">{{ title | escape }}</h3>
+      {%- endif -%}
+      {%- if subtitle != blank -%}
+        <p class="sentinel-card__subtitle">{{ subtitle | escape }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if body != blank -%}
+    <div class="sentinel-card__body">
+      {{ body }}
+    </div>
+  {%- endif -%}
+</{{ wrapper_tag }}>

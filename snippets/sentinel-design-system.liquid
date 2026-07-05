@@ -1,0 +1,26 @@
+{% doc %}
+  Loads the Sentinel design system: CSS variables, font preloads, and stylesheets.
+  Render once in layout <head> after the base css-variables snippet.
+
+  @example
+  {% render 'sentinel-design-system' %}
+{% enddoc %}
+
+{%- liquid
+  assign heading_font = settings.sentinel_font_heading
+  assign body_font = settings.sentinel_font_body
+-%}
+
+{% render 'sentinel-css-variables' %}
+
+{% unless heading_font.system? %}
+  {{ heading_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+{% endunless %}
+
+{% unless body_font.system? %}
+  {{ body_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+{% endunless %}
+
+{{ 'sentinel-typography.css' | asset_url | stylesheet_tag }}
+{{ 'sentinel-layout.css' | asset_url | stylesheet_tag }}
+{{ 'sentinel-components.css' | asset_url | stylesheet_tag }}
