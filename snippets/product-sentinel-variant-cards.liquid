@@ -1,0 +1,82 @@
+{% doc %}
+  Premium card-based variant option picker. No dropdowns.
+
+  @param {product} product - The product object
+  @param {object} option - Option from product.options_with_values
+  @param {number} option_index - Zero-based option index
+  @param {string} section_id - Section ID for unique input names
+  @param {object} subtitle_blocks - Section blocks for option subtitles
+  @param {string} [grid_class] - Optional grid column modifier class
+  @param {string} [premium_badge_value] - Option value that shows premium badge
+
+  @example
+  {% render 'product-sentinel-variant-cards',
+    product: product,
+    option: option,
+    option_index: forloop.index0,
+    section_id: section.id,
+    subtitle_blocks: section.blocks,
+    premium_badge_value: 'Titanium'
+  %}
+{% enddoc %}
+
+{%- liquid
+  assign selected_variant = product.selected_or_first_available_variant
+  assign option_key = 'option' | append: option.position
+  assign selected_value = selected_variant[option_key]
+  assign input_name = 'product-sentinel-option-' | append: section_id | append: '-' | append: option.position
+  assign option_grid_class = grid_class | default: ''
+-%}
+
+<fieldset class="product-sentinel-options" data-option-fieldset data-option-index="{{ option_index }}">
+  <legend class="product-sentinel-options__legend sentinel-overline">
+    {{ option.name | escape }}
+  </legend>
+
+  <div class="product-sentinel-options__grid{% if option_grid_class != blank %} {{ option_grid_class }}{% endif %}" role="radiogroup" aria-label="{{ option.name | escape }}">
+    {%- for value in option.values -%}
+      {%- liquid
+        assign subtitle = ''
+        for block in subtitle_blocks
+          if block.type == 'option_subtitle' and block.settings.option_value == value
+            assign subtitle = block.settings.subtitle
+            break
+          endif
+        endfor
+
+        assign is_selected = false
+        if value == selected_value
+          assign is_selected = true
+        endif
+
+        assign show_badge = false
+        if premium_badge_value != blank and value == premium_badge_value
+          assign show_badge = true
+        endif
+      -%}
+
+      <label class="product-sentinel-option{% if is_selected %} product-sentinel-option--selected{% endif %}">
+        <input
+          type="radio"
+          class="product-sentinel-option__input sentinel-visually-hidden"
+          name="{{ input_name }}"
+          value="{{ value | escape }}"
+          data-option-input
+          data-option-value="{{ value | escape }}"
+          {% if is_selected %}
+            checked
+          {% endif %}
+        >
+        <span class="product-sentinel-option__card">
+          {%- if show_badge -%}
+            <span class="product-sentinel-option__badge sentinel-caption">{{ 'products.badge.premium_choice' | t }}</span>
+          {%- endif -%}
+          <span class="product-sentinel-option__title">{{ value | escape }}</span>
+          {%- if subtitle != blank -%}
+            <span class="product-sentinel-option__subtitle sentinel-body-sm">{{ subtitle | escape }}</span>
+          {%- endif -%}
+        </span>
+      </label>
+    {%- endfor -%}
+  </div>
+</fieldset>

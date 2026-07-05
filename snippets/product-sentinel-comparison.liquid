@@ -1,0 +1,49 @@
+{% doc %}
+  Why Titanium comparison table with Theme Editor blocks.
+
+  @param {object} blocks - Section blocks of type comparison_row
+  @param {string} heading - Section heading
+  @param {string} column_stainless - Stainless column header
+  @param {string} column_titanium - Titanium column header
+
+  @example
+  {% render 'product-sentinel-comparison',
+    blocks: section.blocks,
+    heading: section.settings.comparison_heading,
+    column_stainless: section.settings.comparison_column_stainless,
+    column_titanium: section.settings.comparison_column_titanium
+  %}
+{% enddoc %}
+
+{%- assign comparison_blocks = blocks | where: 'type', 'comparison_row' -%}
+
+{%- if comparison_blocks.size > 0 -%}
+  <div class="product-sentinel-comparison">
+    {%- if heading != blank -%}
+      <h2 class="product-sentinel-comparison__heading sentinel-heading">{{ heading | escape }}</h2>
+    {%- endif -%}
+
+    <div class="product-sentinel-comparison__table-wrapper">
+      <table class="product-sentinel-comparison__table">
+        <thead>
+          <tr>
+            <th scope="col" class="sentinel-visually-hidden">{{ 'products.comparison.feature' | t }}</th>
+            <th scope="col">{{ column_stainless | default: 'Stainless Steel' | escape }}</th>
+            <th scope="col" class="product-sentinel-comparison__col-highlight">
+              {{ column_titanium | default: 'Titanium' | escape }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for block in comparison_blocks -%}
+            <tr {{ block.shopify_attributes }}>
+              <th scope="row">{{ block.settings.row_label | escape }}</th>
+              <td>{{ block.settings.stainless_value | escape }}</td>
+              <td class="product-sentinel-comparison__col-highlight">{{ block.settings.titanium_value | escape }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{%- endif -%}

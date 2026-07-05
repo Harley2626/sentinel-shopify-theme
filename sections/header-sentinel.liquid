@@ -1,0 +1,350 @@
+{{ 'header-sentinel.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'header-sentinel.js' | asset_url }}" defer></script>
+
+{%- liquid
+  assign header_classes = 'header-sentinel full-width'
+
+  if section.settings.enable_sticky
+    assign header_classes = header_classes | append: ' header-sentinel--sticky'
+  endif
+
+  if section.settings.enable_transparent
+    assign header_classes = header_classes | append: ' header-sentinel--transparent'
+  endif
+
+  assign search_submit_label = 'search.submit' | t
+
+  assign logo_image = section.settings.logo
+  if logo_image == blank
+    assign logo_image = settings.sentinel_logo
+  endif
+  if logo_image == blank and shop.brand.logo != blank
+    assign logo_image = shop.brand.logo
+  endif
+-%}
+
+{% style %}
+  #HeaderSentinel-{{ section.id }} {
+    --header-logo-width: {{ section.settings.logo_width }}px;
+    --header-logo-width-mobile: {{ section.settings.mobile_logo_width }}px;
+  }
+{% endstyle %}
+
+<header
+  id="HeaderSentinel-{{ section.id }}"
+  class="{{ header_classes }}"
+  data-header-sentinel
+  data-sticky="{{ section.settings.enable_sticky }}"
+  data-transparent="{{ section.settings.enable_transparent }}"
+  role="banner"
+>
+  <div class="header-sentinel__backdrop" aria-hidden="true"></div>
+
+  <div class="header-sentinel__inner">
+    <a class="header-sentinel__skip" href="#MainContent">
+      {{ 'header_sentinel.skip_to_content' | t }}
+    </a>
+
+    {%- if logo_image != blank -%}
+      <a class="header-sentinel__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        {% render 'sentinel-logo',
+          image: logo_image,
+          class: 'header-sentinel__logo-image',
+          loading: 'eager',
+          image_sizes: '(min-width: 990px) var(--header-logo-width), var(--header-logo-width-mobile)'
+        %}
+      </a>
+    {%- endif -%}
+
+    <nav class="header-sentinel__nav" aria-label="{{ 'header_sentinel.navigation' | t }}">
+      {%- if section.settings.menu != blank -%}
+        <ul class="header-sentinel__nav-list" role="list">
+          {%- for link in section.settings.menu.links -%}
+            <li>
+              <a
+                class="header-sentinel__nav-link"
+                href="{{ link.url }}"
+                {% if link.current %}
+                  aria-current="page"
+                {% endif %}
+              >
+                {{ link.title | escape }}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </nav>
+
+    <div class="header-sentinel__actions">
+      <a
+        class="header-sentinel__icon-btn"
+        href="{{ routes.search_url }}"
+        aria-label="{{ 'header_sentinel.search' | t }}"
+      >
+        {{ 'icon-search.svg' | inline_asset_content }}
+      </a>
+
+      {%- if shop.customer_accounts_enabled -%}
+        <a
+          class="header-sentinel__icon-btn"
+          href="{{ routes.account_url }}"
+          aria-label="{{ 'header_sentinel.account' | t }}"
+        >
+          {{ 'icon-account.svg' | inline_asset_content }}
+        </a>
+      {%- endif -%}
+
+      <a
+        class="header-sentinel__icon-btn"
+        href="{{ routes.cart_url }}"
+        aria-label="{{ 'header_sentinel.cart_count' | t: count: cart.item_count }}"
+        id="HeaderSentinelCart-{{ section.id }}"
+      >
+        {{ 'icon-cart.svg' | inline_asset_content }}
+        <span
+          class="header-sentinel__badge"
+          data-header-cart-count
+          {% if cart.item_count == 0 %}
+            hidden
+          {% endif %}
+        >
+          {{- cart.item_count -}}
+        </span>
+      </a>
+
+      {%- if section.settings.enable_cta -%}
+        <div class="header-sentinel__cta">
+          {% render 'sentinel-button',
+            label: section.settings.cta_label,
+            url: section.settings.cta_url,
+            variant: 'primary',
+            size: 'sm'
+          %}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <button
+      class="header-sentinel__toggle"
+      type="button"
+      data-header-toggle
+      aria-controls="HeaderSentinelDrawer-{{ section.id }}"
+      aria-expanded="false"
+      aria-label="{{ 'header_sentinel.menu_open' | t }}"
+    >
+      <span class="header-sentinel__toggle-bar" aria-hidden="true"></span>
+      <span class="header-sentinel__toggle-bar" aria-hidden="true"></span>
+      <span class="header-sentinel__toggle-bar" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<div
+  class="header-sentinel__drawer"
+  id="HeaderSentinelDrawer-{{ section.id }}"
+  data-header-drawer
+  aria-hidden="true"
+>
+  <div class="header-sentinel__drawer-overlay" data-header-overlay aria-hidden="true"></div>
+
+    <div class="header-sentinel__drawer-panel" role="dialog" aria-modal="true" aria-label="{{ 'header_sentinel.navigation' | t }}">
+      <div class="header-sentinel__drawer-header">
+        {%- if logo_image != blank -%}
+          <a class="header-sentinel__drawer-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+            {% render 'sentinel-logo',
+              image: logo_image,
+              class: 'header-sentinel__drawer-logo-image',
+              loading: 'eager',
+              image_sizes: '120px'
+            %}
+          </a>
+        {%- else -%}
+          <span class="header-sentinel__drawer-label">{{ 'header_sentinel.menu' | t }}</span>
+        {%- endif -%}
+      <button
+        class="header-sentinel__icon-btn"
+        type="button"
+        data-header-toggle
+        aria-label="{{ 'header_sentinel.menu_close' | t }}"
+      >
+        <span class="header-sentinel__close-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <nav class="header-sentinel__drawer-nav" aria-label="{{ 'header_sentinel.navigation' | t }}">
+      {%- if section.settings.menu != blank -%}
+        <ul class="header-sentinel__drawer-list" role="list">
+          {%- for link in section.settings.menu.links -%}
+            <li>
+              <a
+                class="header-sentinel__drawer-link"
+                href="{{ link.url }}"
+                {% if link.current %}
+                  aria-current="page"
+                {% endif %}
+              >
+                {{ link.title | escape }}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </nav>
+
+    <div class="header-sentinel__drawer-footer">
+      <form
+        class="header-sentinel__drawer-search"
+        action="{{ routes.search_url }}"
+        method="get"
+        role="search"
+      >
+        <label class="sentinel-visually-hidden" for="HeaderSentinelSearch-{{ section.id }}">
+          {{ 'search.title' | t }}
+        </label>
+        <input
+          class="header-sentinel__search-input"
+          id="HeaderSentinelSearch-{{ section.id }}"
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="{{ 'search.placeholder' | t }}"
+        >
+        {% render 'sentinel-button',
+          label: search_submit_label,
+          type: 'submit',
+          variant: 'surface',
+          size: 'sm',
+          class: 'sentinel-btn--full'
+        %}
+      </form>
+
+      <div class="header-sentinel__drawer-actions">
+        {%- if shop.customer_accounts_enabled -%}
+          <a
+            class="header-sentinel__icon-btn"
+            href="{{ routes.account_url }}"
+            aria-label="{{ 'header_sentinel.account' | t }}"
+          >
+            {{ 'icon-account.svg' | inline_asset_content }}
+          </a>
+        {%- endif -%}
+
+        <a
+          class="header-sentinel__icon-btn"
+          href="{{ routes.cart_url }}"
+          aria-label="{{ 'header_sentinel.cart_count' | t: count: cart.item_count }}"
+        >
+          {{ 'icon-cart.svg' | inline_asset_content }}
+          <span
+            class="header-sentinel__badge"
+            data-header-cart-count
+            {% if cart.item_count == 0 %}
+              hidden
+            {% endif %}
+          >
+            {{- cart.item_count -}}
+          </span>
+        </a>
+      </div>
+
+      {%- if section.settings.enable_cta -%}
+        {% render 'sentinel-button',
+          label: section.settings.cta_label,
+          url: section.settings.cta_url,
+          variant: 'primary',
+          size: 'lg',
+          full_width: true
+        %}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.header_sentinel.name",
+  "tag": "section",
+  "class": "header-sentinel-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.header_sentinel.settings.brand_header"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "t:sections.header_sentinel.settings.logo",
+      "info": "t:sections.header_sentinel.settings.logo_info"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "t:sections.header_sentinel.settings.logo_width",
+      "min": 60,
+      "max": 240,
+      "step": 10,
+      "unit": "px",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "mobile_logo_width",
+      "label": "t:sections.header_sentinel.settings.mobile_logo_width",
+      "min": 60,
+      "max": 180,
+      "step": 10,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "t:sections.header_sentinel.settings.navigation_header"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:labels.menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.header_sentinel.settings.cta_header"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_cta",
+      "label": "t:sections.header_sentinel.settings.enable_cta",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "t:sections.header_sentinel.settings.cta_label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "t:sections.header_sentinel.settings.cta_url"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.header_sentinel.settings.behavior_header"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_transparent",
+      "label": "t:sections.header_sentinel.settings.enable_transparent",
+      "default": true,
+      "info": "t:sections.header_sentinel.settings.enable_transparent_info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "t:sections.header_sentinel.settings.enable_sticky",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

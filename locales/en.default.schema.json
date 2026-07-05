@@ -79,6 +79,13 @@
     "legacy_typography_note": "Legacy skeleton typography. Sentinel uses the fonts configured in the Sentinel design system group above.",
     "legacy_layout_note": "Legacy skeleton layout. Sentinel container widths are configured in the Sentinel design system group above.",
     "legacy_colors_note": "Legacy skeleton colors. Sentinel brand colors are configured in the Sentinel design system group above.",
+    "brand": {
+      "header": "Brand",
+      "logo": "Logo",
+      "logo_info": "Used in the header, mobile menu, and footer. Falls back to your Shopify brand logo if not set.",
+      "favicon": "Favicon",
+      "favicon_info": "Browser tab icon. Falls back to your Shopify brand square logo if not set."
+    },
     "colors": {
       "header": "Brand colors",
       "background": "Background",
@@ -142,6 +149,99 @@
         "text_alignment": "Text alignment",
         "desktop_height": "Desktop height",
         "mobile_height": "Mobile height"
+      }
+    },
+    "header_sentinel": {
+      "name": "Sentinel header",
+      "settings": {
+        "brand_header": "Brand",
+        "logo": "Logo",
+        "logo_info": "Overrides the global Sentinel logo for this header only.",
+        "logo_width": "Logo width",
+        "mobile_logo_width": "Mobile logo width",
+        "navigation_header": "Navigation",
+        "cta_header": "Call to action",
+        "enable_cta": "Show CTA button",
+        "cta_label": "CTA label",
+        "cta_url": "CTA link",
+        "behavior_header": "Behavior",
+        "enable_transparent": "Transparent over hero",
+        "enable_transparent_info": "Header is transparent at the top of the page and turns solid after scrolling.",
+        "enable_sticky": "Sticky header"
+      }
+    },
+    "stats_sentinel": {
+      "name": "Sentinel stats",
+      "category": "Sentinel",
+      "settings": {
+        "heading": "Section heading",
+        "heading_info": "Visually hidden. Used for screen readers."
+      },
+      "blocks": {
+        "stat": {
+          "name": "Stat",
+          "value": "Value",
+          "label": "Label"
+        }
+      }
+    },
+    "technology_sentinel": {
+      "name": "Sentinel technology",
+      "category": "Sentinel",
+      "settings": {
+        "eyebrow": "Eyebrow text",
+        "heading": "Heading"
+      },
+      "blocks": {
+        "feature": {
+          "name": "Feature",
+          "title": "Title",
+          "description": "Description"
+        }
+      }
+    },
+    "footer_sentinel": {
+      "name": "Sentinel footer"
+    },
+    "product_sentinel": {
+      "name": "Sentinel product",
+      "settings": {
+        "variant_header": "Variant options",
+        "premium_option_name": "Premium badge option name",
+        "premium_option_name_info": "Option name that displays the premium badge on a value.",
+        "premium_badge_value": "Premium badge value",
+        "show_dynamic_checkout": "Show dynamic checkout button",
+        "comparison_header": "Comparison table",
+        "show_comparison": "Show comparison table",
+        "comparison_heading": "Comparison heading",
+        "comparison_column_stainless": "Stainless column label",
+        "comparison_column_titanium": "Titanium column label",
+        "size_guide_header": "Size guide",
+        "show_size_guide": "Show size guide",
+        "size_guide_heading": "Size guide heading"
+      },
+      "blocks": {
+        "option_subtitle": {
+          "name": "Option subtitle",
+          "option_value": "Option value",
+          "option_value_info": "Must match the variant option value exactly, e.g. Small.",
+          "subtitle": "Subtitle"
+        },
+        "feature": {
+          "name": "Feature",
+          "title": "Title"
+        },
+        "comparison_row": {
+          "name": "Comparison row",
+          "row_label": "Row label",
+          "stainless_value": "Stainless steel value",
+          "titanium_value": "Titanium value"
+        },
+        "size_entry": {
+          "name": "Size entry",
+          "size_label": "Size label",
+          "size_range": "Size range"
+        }
       }
     }
   }

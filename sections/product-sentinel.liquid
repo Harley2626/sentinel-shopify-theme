@@ -1,0 +1,407 @@
+{{ 'product-sentinel.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-sentinel.js' | asset_url }}" defer></script>
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign add_to_cart_label = 'products.add_to_cart' | t
+  assign sold_out_label = 'products.sold_out' | t
+-%}
+
+<section
+  id="ProductSentinel-{{ section.id }}"
+  class="product-sentinel full-width"
+  data-product-sentinel
+  data-add-to-cart-text="{{ add_to_cart_label | escape }}"
+  data-sold-out-text="{{ sold_out_label | escape }}"
+  data-in-stock-text="{{ 'products.inventory.in_stock' | t | escape }}"
+  data-low-stock-text="{{ 'products.inventory.low_stock' | t: count: '__COUNT__' | escape }}"
+  data-out-of-stock-text="{{ 'products.inventory.out_of_stock' | t | escape }}"
+  data-money-format="{{ shop.money_format | escape }}"
+>
+  <script type="application/json" data-product-variants-json>
+    {
+      "variants": {{ product.variants | json }},
+      "options": {{ product.options | json }}
+    }
+  </script>
+
+  <div class="sentinel-container sentinel-container--wide">
+    <div class="product-sentinel__layout">
+      <div class="product-sentinel__media">
+        {% render 'product-sentinel-gallery', product: product %}
+      </div>
+
+      <div class="product-sentinel__details">
+        <div class="product-sentinel__header">
+          <h1 class="product-sentinel__title sentinel-heading">{{ product.title | escape }}</h1>
+
+          {%- if product.description != blank -%}
+            <div class="product-sentinel__description">
+              {{ product.description }}
+            </div>
+          {%- endif -%}
+        </div>
+
+        {% form 'product', product, class: 'product-sentinel__form', data-product-form: '' %}
+          <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+
+          {%- unless product.has_only_default_variant -%}
+            {%- for option in product.options_with_values -%}
+              {%- liquid
+                assign grid_class = ''
+                if option.values.size == 3
+                  assign grid_class = 'product-sentinel-options__grid--cols-3'
+                elsif option.values.size == 2
+                  assign grid_class = 'product-sentinel-options__grid--cols-2'
+                endif
+
+                assign premium_badge = ''
+                if option.name == 'Face Guard' or option.name == section.settings.premium_option_name
+                  assign premium_badge = section.settings.premium_badge_value
+                endif
+              -%}
+
+              {% render 'product-sentinel-variant-cards',
+                product: product,
+                option: option,
+                option_index: forloop.index0,
+                section_id: section.id,
+                subtitle_blocks: section.blocks,
+                premium_badge_value: premium_badge,
+                grid_class: grid_class
+              %}
+            {%- endfor -%}
+          {%- endunless -%}
+
+          {% render 'product-sentinel-price', product: product %}
+
+          <div class="product-sentinel__quantity">
+            <label class="product-sentinel__quantity-label sentinel-caption" for="ProductQuantity-{{ section.id }}">
+              {{ 'products.quantity' | t }}
+            </label>
+            <input
+              class="product-sentinel__quantity-input"
+              id="ProductQuantity-{{ section.id }}"
+              type="number"
+              name="quantity"
+              min="1"
+              value="1"
+              inputmode="numeric"
+            >
+          </div>
+
+          <div class="product-sentinel__actions">
+            <button
+              type="submit"
+              class="sentinel-btn sentinel-btn--primary sentinel-btn--lg sentinel-btn--full"
+              data-add-to-cart
+              {% unless current_variant.available %}
+                disabled
+              {% endunless %}
+            >
+              <span data-add-to-cart-label>
+                {%- if current_variant.available -%}
+                  {{ add_to_cart_label }}
+                {%- else -%}
+                  {{ sold_out_label }}
+                {%- endif -%}
+              </span>
+            </button>
+
+            {%- if section.settings.show_dynamic_checkout -%}
+              <div class="product-sentinel__dynamic-checkout">
+                {{ form | payment_button }}
+              </div>
+            {%- endif -%}
+          </div>
+
+          <p class="product-sentinel__error" data-product-error hidden role="alert"></p>
+        {% endform %}
+
+        {% render 'product-sentinel-features', blocks: section.blocks %}
+
+        {%- if section.settings.show_comparison -%}
+          {% render 'product-sentinel-comparison',
+            blocks: section.blocks,
+            heading: section.settings.comparison_heading,
+            column_stainless: section.settings.comparison_column_stainless,
+            column_titanium: section.settings.comparison_column_titanium
+          %}
+        {%- endif -%}
+
+        {%- if section.settings.show_size_guide -%}
+          {% render 'product-sentinel-size-guide',
+            blocks: section.blocks,
+            heading: section.settings.size_guide_heading
+          %}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.product_sentinel.name",
+  "tag": "section",
+  "class": "product-sentinel-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.product_sentinel.settings.variant_header"
+    },
+    {
+      "type": "text",
+      "id": "premium_option_name",
+      "label": "t:sections.product_sentinel.settings.premium_option_name",
+      "default": "Face Guard",
+      "info": "t:sections.product_sentinel.settings.premium_option_name_info"
+    },
+    {
+      "type": "text",
+      "id": "premium_badge_value",
+      "label": "t:sections.product_sentinel.settings.premium_badge_value",
+      "default": "Titanium"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "t:sections.product_sentinel.settings.show_dynamic_checkout",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.product_sentinel.settings.comparison_header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_comparison",
+      "label": "t:sections.product_sentinel.settings.show_comparison",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "comparison_heading",
+      "label": "t:sections.product_sentinel.settings.comparison_heading",
+      "default": "Why Titanium?"
+    },
+    {
+      "type": "text",
+      "id": "comparison_column_stainless",
+      "label": "t:sections.product_sentinel.settings.comparison_column_stainless",
+      "default": "Stainless Steel"
+    },
+    {
+      "type": "text",
+      "id": "comparison_column_titanium",
+      "label": "t:sections.product_sentinel.settings.comparison_column_titanium",
+      "default": "Titanium"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.product_sentinel.settings.size_guide_header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_size_guide",
+      "label": "t:sections.product_sentinel.settings.show_size_guide",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "size_guide_heading",
+      "label": "t:sections.product_sentinel.settings.size_guide_heading",
+      "default": "Size guide"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "option_subtitle",
+      "name": "t:sections.product_sentinel.blocks.option_subtitle.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "option_value",
+          "label": "t:sections.product_sentinel.blocks.option_subtitle.option_value",
+          "info": "t:sections.product_sentinel.blocks.option_subtitle.option_value_info"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "t:sections.product_sentinel.blocks.option_subtitle.subtitle"
+        }
+      ]
+    },
+    {
+      "type": "feature",
+      "name": "t:sections.product_sentinel.blocks.feature.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:sections.product_sentinel.blocks.feature.title",
+          "default": "Feature"
+        }
+      ]
+    },
+    {
+      "type": "comparison_row",
+      "name": "t:sections.product_sentinel.blocks.comparison_row.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "row_label",
+          "label": "t:sections.product_sentinel.blocks.comparison_row.row_label",
+          "default": "Feature"
+        },
+        {
+          "type": "text",
+          "id": "stainless_value",
+          "label": "t:sections.product_sentinel.blocks.comparison_row.stainless_value",
+          "default": "Standard"
+        },
+        {
+          "type": "text",
+          "id": "titanium_value",
+          "label": "t:sections.product_sentinel.blocks.comparison_row.titanium_value",
+          "default": "Premium"
+        }
+      ]
+    },
+    {
+      "type": "size_entry",
+      "name": "t:sections.product_sentinel.blocks.size_entry.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "size_label",
+          "label": "t:sections.product_sentinel.blocks.size_entry.size_label",
+          "default": "Medium"
+        },
+        {
+          "type": "text",
+          "id": "size_range",
+          "label": "t:sections.product_sentinel.blocks.size_entry.size_range",
+          "default": "56–58 cm"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.product_sentinel.name",
+      "blocks": [
+        {
+          "type": "option_subtitle",
+          "settings": {
+            "option_value": "Small",
+            "subtitle": "54–56 cm"
+          }
+        },
+        {
+          "type": "option_subtitle",
+          "settings": {
+            "option_value": "Medium",
+            "subtitle": "56–58 cm"
+          }
+        },
+        {
+          "type": "option_subtitle",
+          "settings": {
+            "option_value": "Large",
+            "subtitle": "59–62 cm"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Ultra Lightweight"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Titanium Construction"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "360° Protection"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Multi-Density Impact System"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "row_label": "Weight",
+            "stainless_value": "Heavier",
+            "titanium_value": "Ultra lightweight"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "row_label": "Strength",
+            "stainless_value": "Strong",
+            "titanium_value": "Superior strength-to-weight"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "row_label": "Corrosion Resistance",
+            "stainless_value": "Good",
+            "titanium_value": "Exceptional"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "row_label": "Professional Performance",
+            "stainless_value": "Club level",
+            "titanium_value": "Professional grade"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "row_label": "Premium Finish",
+            "stainless_value": "Standard",
+            "titanium_value": "Premium matte finish"
+          }
+        },
+        {
+          "type": "size_entry",
+          "settings": {
+            "size_label": "Small",
+            "size_range": "54–56 cm"
+          }
+        },
+        {
+          "type": "size_entry",
+          "settings": {
+            "size_label": "Medium",
+            "size_range": "56–58 cm"
+          }
+        },
+        {
+          "type": "size_entry",
+          "settings": {
+            "size_label": "Large",
+            "size_range": "59–62 cm"
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

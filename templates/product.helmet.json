@@ -1,0 +1,146 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-sentinel",
+      "blocks": {
+        "subtitle_small": {
+          "type": "option_subtitle",
+          "settings": {
+            "option_value": "Small",
+            "subtitle": "54–56 cm"
+          }
+        },
+        "subtitle_medium": {
+          "type": "option_subtitle",
+          "settings": {
+            "option_value": "Medium",
+            "subtitle": "56–58 cm"
+          }
+        },
+        "subtitle_large": {
+          "type": "option_subtitle",
+          "settings": {
+            "option_value": "Large",
+            "subtitle": "59–62 cm"
+          }
+        },
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "title": "Ultra Lightweight"
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "title": "Titanium Construction"
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "title": "360° Protection"
+          }
+        },
+        "feature_4": {
+          "type": "feature",
+          "settings": {
+            "title": "Multi-Density Impact System"
+          }
+        },
+        "comparison_1": {
+          "type": "comparison_row",
+          "settings": {
+            "row_label": "Weight",
+            "stainless_value": "Heavier",
+            "titanium_value": "Ultra lightweight"
+          }
+        },
+        "comparison_2": {
+          "type": "comparison_row",
+          "settings": {
+            "row_label": "Strength",
+            "stainless_value": "Strong",
+            "titanium_value": "Superior strength-to-weight"
+          }
+        },
+        "comparison_3": {
+          "type": "comparison_row",
+          "settings": {
+            "row_label": "Corrosion Resistance",
+            "stainless_value": "Good",
+            "titanium_value": "Exceptional"
+          }
+        },
+        "comparison_4": {
+          "type": "comparison_row",
+          "settings": {
+            "row_label": "Professional Performance",
+            "stainless_value": "Club level",
+            "titanium_value": "Professional grade"
+          }
+        },
+        "comparison_5": {
+          "type": "comparison_row",
+          "settings": {
+            "row_label": "Premium Finish",
+            "stainless_value": "Standard",
+            "titanium_value": "Premium matte finish"
+          }
+        },
+        "size_1": {
+          "type": "size_entry",
+          "settings": {
+            "size_label": "Small",
+            "size_range": "54–56 cm"
+          }
+        },
+        "size_2": {
+          "type": "size_entry",
+          "settings": {
+            "size_label": "Medium",
+            "size_range": "56–58 cm"
+          }
+        },
+        "size_3": {
+          "type": "size_entry",
+          "settings": {
+            "size_label": "Large",
+            "size_range": "59–62 cm"
+          }
+        }
+      },
+      "block_order": [
+        "subtitle_small",
+        "subtitle_medium",
+        "subtitle_large",
+        "feature_1",
+        "feature_2",
+        "feature_3",
+        "feature_4",
+        "comparison_1",
+        "comparison_2",
+        "comparison_3",
+        "comparison_4",
+        "comparison_5",
+        "size_1",
+        "size_2",
+        "size_3"
+      ],
+      "settings": {
+        "premium_option_name": "Face Guard",
+        "premium_badge_value": "Titanium",
+        "show_dynamic_checkout": false,
+        "show_comparison": true,
+        "comparison_heading": "Why Titanium?",
+        "comparison_column_stainless": "Stainless Steel",
+        "comparison_column_titanium": "Titanium",
+        "show_size_guide": true,
+        "size_guide_heading": "Size guide"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

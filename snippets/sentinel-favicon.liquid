@@ -1,0 +1,30 @@
+{% doc %}
+  Outputs favicon link tags from theme settings or Shopify brand assets.
+
+  @example
+  {% render 'sentinel-favicon' %}
+{% enddoc %}
+
+{%- liquid
+  assign favicon_image = settings.sentinel_favicon
+
+  if favicon_image == blank and shop.brand.square_logo != blank
+    assign favicon_image = shop.brand.square_logo
+  endif
+
+  if favicon_image == blank and shop.brand.logo != blank
+    assign favicon_image = shop.brand.logo
+  endif
+-%}
+
+{%- if favicon_image != blank -%}
+  <link
+    rel="icon"
+    type="image/png"
+    href="{{ favicon_image | image_url: width: 32, height: 32 }}"
+  >
+  <link
+    rel="apple-touch-icon"
+    href="{{ favicon_image | image_url: width: 180, height: 180 }}"
+  >
+{%- endif -%}

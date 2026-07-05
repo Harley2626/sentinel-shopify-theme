@@ -48,5 +48,47 @@
     "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
     "results_for_html": "{{ count }} results found for {{ terms }}"
+  },
+  "header_sentinel": {
+    "skip_to_content": "Skip to content",
+    "navigation": "Main navigation",
+    "menu": "Menu",
+    "menu_open": "Open menu",
+    "menu_close": "Close menu",
+    "search": "Search",
+    "account": "Account",
+    "cart": "Cart",
+    "cart_count": "Cart, {{ count }} items"
+  },
+  "footer_sentinel": {
+    "navigation": "Footer navigation",
+    "payment_methods": "Payment methods"
+  },
+  "products": {
+    "add_to_cart": "Add to cart",
+    "sold_out": "Sold out",
+    "quantity": "Quantity",
+    "sku": "SKU",
+    "badge": {
+      "premium_choice": "Premium Choice"
+    },
+    "price": {
+      "label": "Price"
+    },
+    "inventory": {
+      "in_stock": "In stock",
+      "low_stock": "Only __COUNT__ left",
+      "out_of_stock": "Out of stock"
+    },
+    "features": {
+      "heading": "Feature highlights"
+    },
+    "comparison": {
+      "feature": "Feature"
+    },
+    "gallery": {
+      "thumbnails": "Product image thumbnails",
+      "view_image": "View image {{ index }}"
+    }
   }
 }

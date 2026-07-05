@@ -1,0 +1,28 @@
+{% doc %}
+  Product size guide display.
+
+  @param {object} blocks - Section blocks of type size_entry
+  @param {string} heading - Section heading
+
+  @example
+  {% render 'product-sentinel-size-guide', blocks: section.blocks, heading: section.settings.size_guide_heading %}
+{% enddoc %}
+
+{%- assign size_blocks = blocks | where: 'type', 'size_entry' -%}
+
+{%- if size_blocks.size > 0 -%}
+  <div class="product-sentinel-size-guide">
+    {%- if heading != blank -%}
+      <h2 class="product-sentinel-size-guide__heading sentinel-overline">{{ heading | escape }}</h2>
+    {%- endif -%}
+
+    <ul class="product-sentinel-size-guide__list" role="list">
+      {%- for block in size_blocks -%}
+        <li class="product-sentinel-size-guide__item" {{ block.shopify_attributes }}>
+          <span class="product-sentinel-size-guide__size sentinel-heading">{{ block.settings.size_label | escape }}</span>
+          <span class="product-sentinel-size-guide__range sentinel-body-sm">{{ block.settings.size_range | escape }}</span>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}

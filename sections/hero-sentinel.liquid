@@ -17,6 +17,11 @@
     assign has_helmet = true
   endif
 
+  assign has_media = false
+  if has_video or has_image
+    assign has_media = true
+  endif
+
   case section.settings.content_width
     when 'narrow'
       assign container_class = 'hero-sentinel__container--narrow'
@@ -81,12 +86,14 @@
             alt: ''
         }}
       {%- else -%}
-        <div class="hero-sentinel__image sentinel-bg-surface"></div>
+        <div class="hero-sentinel__placeholder-bg" aria-hidden="true"></div>
       {%- endif -%}
     </div>
   </div>
 
-  <div class="hero-sentinel__overlay" aria-hidden="true"></div>
+  {%- if has_media -%}
+    <div class="hero-sentinel__overlay" aria-hidden="true"></div>
+  {%- endif -%}
 
   <div class="hero-sentinel__container {{ container_class }}">
     <div class="{{ grid_class }}">
@@ -101,7 +108,7 @@
 
         {%- if section.settings.heading != blank -%}
           <h1 class="sentinel-heading hero-sentinel__heading">
-            {{ section.settings.heading | escape }}
+            {{ section.settings.heading | escape | newline_to_br }}
           </h1>
         {%- endif -%}
 
@@ -199,7 +206,7 @@
       "default": "Engineered performance"
     },
     {
-      "type": "text",
+      "type": "textarea",
       "id": "heading",
       "label": "t:sections.hero_sentinel.settings.heading",
       "default": "Built for the crease"
@@ -208,7 +215,7 @@
       "type": "textarea",
       "id": "subheading",
       "label": "t:sections.hero_sentinel.settings.subheading",
-      "default": "Premium cricket equipment designed for players who demand more."
+      "default": "Ultra-lightweight cricket helmets engineered with titanium protection, multi-density impact technology and uncompromising comfort for every innings."
     },
     {
       "type": "header",
@@ -229,7 +236,7 @@
       "type": "text",
       "id": "secondary_button",
       "label": "t:sections.hero_sentinel.settings.secondary_button",
-      "default": "Explore technology"
+      "default": "Explore Technology"
     },
     {
       "type": "url",

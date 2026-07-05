@@ -1,0 +1,26 @@
+{% doc %}
+  Product feature highlights grid.
+
+  @param {object} blocks - Section blocks of type feature
+
+  @example
+  {% render 'product-sentinel-features', blocks: section.blocks %}
+{% enddoc %}
+
+{%- assign feature_blocks = blocks | where: 'type', 'feature' -%}
+
+{%- if feature_blocks.size > 0 -%}
+  <div class="product-sentinel-features">
+    <h2 class="product-sentinel-features__heading sentinel-overline">{{ 'products.features.heading' | t }}</h2>
+    <ul class="product-sentinel-features__list" role="list">
+      {%- for block in feature_blocks -%}
+        {%- if block.settings.title != blank -%}
+          <li class="product-sentinel-features__item" {{ block.shopify_attributes }}>
+            <span class="product-sentinel-features__accent" aria-hidden="true"></span>
+            <span class="product-sentinel-features__title sentinel-body">{{ block.settings.title | escape }}</span>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}

@@ -12,6 +12,22 @@
     "settings": [
       {
         "type": "header",
+        "content": "t:sentinel.brand.header"
+      },
+      {
+        "type": "image_picker",
+        "id": "sentinel_logo",
+        "label": "t:sentinel.brand.logo",
+        "info": "t:sentinel.brand.logo_info"
+      },
+      {
+        "type": "image_picker",
+        "id": "sentinel_favicon",
+        "label": "t:sentinel.brand.favicon",
+        "info": "t:sentinel.brand.favicon_info"
+      },
+      {
+        "type": "header",
         "content": "t:sentinel.colors.header"
       },
       {

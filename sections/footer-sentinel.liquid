@@ -1,0 +1,79 @@
+{{ 'footer-sentinel.css' | asset_url | stylesheet_tag }}
+
+<footer
+  id="FooterSentinel-{{ section.id }}"
+  class="footer-sentinel full-width"
+  role="contentinfo"
+>
+  <div class="footer-sentinel__inner sentinel-container sentinel-container--wide">
+    <div class="footer-sentinel__brand">
+      <a class="footer-sentinel__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        {% render 'sentinel-logo',
+          class: 'footer-sentinel__logo-image',
+          image_sizes: '(min-width: 990px) 160px, 120px'
+        %}
+      </a>
+    </div>
+
+    {%- if section.settings.menu != blank -%}
+      <nav class="footer-sentinel__nav" aria-label="{{ 'footer_sentinel.navigation' | t }}">
+        <ul class="footer-sentinel__nav-list" role="list">
+          {%- for link in section.settings.menu.links -%}
+            <li>
+              <a
+                class="footer-sentinel__nav-link"
+                href="{{ link.url }}"
+                {% if link.current %}
+                  aria-current="page"
+                {% endif %}
+              >
+                {{ link.title | escape }}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+
+    <div class="footer-sentinel__meta">
+      <p class="footer-sentinel__copyright sentinel-caption">
+        &copy; {{ 'now' | date: '%Y' }} {{ shop.name | link_to: routes.root_url }}
+      </p>
+
+      {%- if section.settings.show_payment_icons -%}
+        <div class="footer-sentinel__payment" aria-label="{{ 'footer_sentinel.payment_methods' | t }}">
+          {%- for type in shop.enabled_payment_types -%}
+            {{ type | payment_type_svg_tag: class: 'footer-sentinel__payment-icon' }}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "t:sections.footer_sentinel.name",
+  "tag": "section",
+  "class": "footer-sentinel-section",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:labels.menu",
+      "default": "footer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "t:labels.show_payment_icons",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.footer_sentinel.name"
+    }
+  ]
+}
+{% endschema %}

@@ -11,12 +11,20 @@
   "type": "header",
   "name": "t:general.header",
   "sections": {
-    "header": {
-      "type": "header",
-      "settings": {}
+    "header_sentinel": {
+      "type": "header-sentinel",
+      "settings": {
+        "enable_cta": true,
+        "cta_label": "Shop now",
+        "cta_url": "shopify://collections/all",
+        "enable_transparent": true,
+        "enable_sticky": true,
+        "logo_width": 140,
+        "mobile_logo_width": 100
+      }
     }
   },
   "order": [
-    "header"
-  ],
+    "header_sentinel"
+  ]
 }

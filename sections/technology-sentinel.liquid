@@ -1,0 +1,102 @@
+{{ 'technology-sentinel.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="TechnologySentinel-{{ section.id }}"
+  class="technology-sentinel full-width"
+  aria-label="{{ section.settings.heading | default: 'Technology' | escape }}"
+>
+  <div class="sentinel-container sentinel-container--default">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="technology-sentinel__header">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="sentinel-overline technology-sentinel__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        <span class="technology-sentinel__accent" aria-hidden="true"></span>
+        {%- if section.settings.heading != blank -%}
+          <h2 class="sentinel-heading technology-sentinel__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="technology-sentinel__grid">
+      {%- for block in section.blocks -%}
+        <article class="sentinel-card technology-sentinel__card" {{ block.shopify_attributes }}>
+          {%- if block.settings.title != blank -%}
+            <h3 class="technology-sentinel__card-title">{{ block.settings.title | escape }}</h3>
+          {%- endif -%}
+          {%- if block.settings.description != blank -%}
+            <p class="technology-sentinel__card-text">{{ block.settings.description | escape }}</p>
+          {%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.technology_sentinel.name",
+  "tag": "section",
+  "class": "technology-sentinel-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:sections.technology_sentinel.settings.eyebrow",
+      "default": "Innovation"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.technology_sentinel.settings.heading",
+      "default": "Engineered protection"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "t:sections.technology_sentinel.blocks.feature.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:sections.technology_sentinel.blocks.feature.title",
+          "default": "Technology feature"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "t:sections.technology_sentinel.blocks.feature.description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.technology_sentinel.name",
+      "category": "t:sections.technology_sentinel.category",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Ultra Lightweight Titanium Construction"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "360° Wrap Protection"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Multi-Density Impact System"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,20 +1,92 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "main": {
-      "type": "hello-world",
-      "settings": {}
+    "hero_sentinel": {
+      "type": "hero-sentinel",
+      "settings": {
+        "eyebrow": "ENGINEERED FOR PERFORMANCE",
+        "heading": "LIGHTER.\nSTRONGER.\nSMARTER.",
+        "subheading": "Ultra-lightweight cricket helmets engineered with titanium protection, multi-density impact technology and uncompromising comfort for every innings.",
+        "primary_button": "Shop Helmets",
+        "primary_url": "shopify://collections/all",
+        "secondary_button": "Explore Technology",
+        "secondary_url": "",
+        "overlay_opacity": 0,
+        "content_width": "default",
+        "text_alignment": "left",
+        "desktop_height": 100,
+        "mobile_height": 80
+      }
+    },
+    "stats_sentinel": {
+      "type": "stats-sentinel",
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "value": "650g",
+            "label": "Ultra Lightweight"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "value": "Titanium",
+            "label": "Professional Face Guard"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "value": "360°",
+            "label": "Protection"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3"
+      ],
+      "settings": {
+        "heading": "Performance stats"
+      }
+    },
+    "technology_sentinel": {
+      "type": "technology-sentinel",
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "title": "Ultra Lightweight Titanium Construction"
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "title": "360° Wrap Protection"
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "title": "Multi-Density Impact System"
+          }
+        }
+      },
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3"
+      ],
+      "settings": {
+        "eyebrow": "Innovation",
+        "heading": "Engineered protection"
+      }
     }
   },
   "order": [
-    "main"
+    "hero_sentinel",
+    "stats_sentinel",
+    "technology_sentinel"
   ]
 }

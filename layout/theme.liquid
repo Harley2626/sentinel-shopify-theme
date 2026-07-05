@@ -11,6 +11,9 @@
     <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {% render 'sentinel-design-system' %}
 
+    {% # Sentinel favicon %}
+    {% render 'sentinel-favicon' %}
+
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
 
@@ -20,7 +23,9 @@
   <body class="sentinel-theme">
     {% sections 'header-group' %}
 
-    {{ content_for_layout }}
+    <main id="MainContent" role="main">
+      {{ content_for_layout }}
+    </main>
 
     {% sections 'footer-group' %}
   </body>

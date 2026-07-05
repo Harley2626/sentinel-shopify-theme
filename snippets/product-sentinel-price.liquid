@@ -1,0 +1,42 @@
+{% doc %}
+  Dynamic product price display updated by variant selection JS.
+
+  @param {product} product - The product object
+
+  @example
+  {% render 'product-sentinel-price', product: product %}
+{% enddoc %}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<div class="product-sentinel-price" data-product-price>
+  <div class="product-sentinel-price__main">
+    <span class="product-sentinel-price__label sentinel-caption">{{ 'products.price.label' | t }}</span>
+    <span class="product-sentinel-price__amount sentinel-heading" data-price-amount>
+      {{ current_variant.price | money }}
+    </span>
+    <span class="product-sentinel-price__compare sentinel-body-sm" data-price-compare {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}>
+      {{ current_variant.compare_at_price | money }}
+    </span>
+  </div>
+
+  <div class="product-sentinel-price__meta">
+    <p class="product-sentinel-price__sku sentinel-body-sm" data-variant-sku {% if current_variant.sku == blank %}hidden{% endif %}>
+      <span class="product-sentinel-price__meta-label">{{ 'products.sku' | t }}:</span>
+      <span data-sku-value>{{ current_variant.sku | escape }}</span>
+    </p>
+    <p class="product-sentinel-price__inventory sentinel-body-sm" data-variant-inventory>
+      {%- if current_variant.available -%}
+        {%- if current_variant.inventory_management and current_variant.inventory_quantity <= 5 and current_variant.inventory_quantity > 0 -%}
+          {{ 'products.inventory.low_stock' | t: count: current_variant.inventory_quantity }}
+        {%- elsif current_variant.inventory_management and current_variant.inventory_quantity == 0 -%}
+          {{ 'products.inventory.out_of_stock' | t }}
+        {%- else -%}
+          {{ 'products.inventory.in_stock' | t }}
+        {%- endif -%}
+      {%- else -%}
+        {{ 'products.inventory.out_of_stock' | t }}
+      {%- endif -%}
+    </p>
+  </div>
+</div>

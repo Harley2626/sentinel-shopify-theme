@@ -1,0 +1,49 @@
+{% doc %}
+  Renders the Sentinel brand logo from theme settings or Shopify brand assets.
+
+  @param {string} [class] - CSS class for the image element
+  @param {string} [loading] - Image loading attribute (default: lazy)
+  @param {image} [image] - Optional image override
+
+  @param {string} [image_sizes] - Responsive sizes attribute for the image
+
+  @example
+  {% render 'sentinel-logo', class: 'header-sentinel__logo-image', loading: 'eager' %}
+{% enddoc %}
+
+{%- liquid
+  assign logo_image = image
+
+  if logo_image == blank
+    assign logo_image = settings.sentinel_logo
+  endif
+
+  if logo_image == blank and shop.brand.logo != blank
+    assign logo_image = shop.brand.logo
+  endif
+
+  assign logo_alt = shop.name
+  if logo_image.alt != blank
+    assign logo_alt = logo_image.alt
+  endif
+
+  assign logo_loading = loading | default: 'lazy'
+
+  assign logo_sizes = image_sizes
+  if logo_sizes == blank
+    assign logo_sizes = '(min-width: 990px) 140px, 100px'
+  endif
+-%}
+
+{%- if logo_image != blank -%}
+  {{
+    logo_image
+    | image_url: width: 600
+    | image_tag:
+      class: class,
+      loading: logo_loading,
+      alt: logo_alt,
+      widths: '120, 160, 200, 240, 320, 400, 600',
+      sizes: logo_sizes
+  }}
+{%- endif -%}

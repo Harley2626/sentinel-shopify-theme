@@ -1,0 +1,93 @@
+{{ 'stats-sentinel.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="StatsSentinel-{{ section.id }}"
+  class="stats-sentinel full-width"
+  aria-label="{{ section.settings.heading | default: 'Performance stats' | escape }}"
+>
+  <div class="sentinel-container sentinel-container--wide">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="sentinel-visually-hidden">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+
+    <div class="stats-sentinel__grid">
+      {%- for block in section.blocks -%}
+        <div class="stats-sentinel__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.value != blank -%}
+            <span class="stats-sentinel__value">{{ block.settings.value | escape }}</span>
+          {%- endif -%}
+          {%- if block.settings.label != blank -%}
+            <span class="stats-sentinel__label">{{ block.settings.label | escape }}</span>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.stats_sentinel.name",
+  "tag": "section",
+  "class": "stats-sentinel-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.stats_sentinel.settings.heading",
+      "default": "Performance stats",
+      "info": "t:sections.stats_sentinel.settings.heading_info"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "t:sections.stats_sentinel.blocks.stat.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "t:sections.stats_sentinel.blocks.stat.value",
+          "default": "650g"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:sections.stats_sentinel.blocks.stat.label",
+          "default": "Ultra lightweight"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.stats_sentinel.name",
+      "category": "t:sections.stats_sentinel.category",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "value": "650g",
+            "label": "Ultra Lightweight"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "value": "Titanium",
+            "label": "Professional Face Guard"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "value": "360°",
+            "label": "Protection"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

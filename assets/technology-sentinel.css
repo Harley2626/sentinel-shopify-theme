@@ -1,0 +1,72 @@
+/**
+ * Sentinel Technology
+ */
+
+.technology-sentinel {
+  padding-block: var(--sentinel-space-16);
+  background-color: var(--sentinel-color-surface);
+}
+
+.technology-sentinel__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sentinel-space-4);
+  margin-block-end: var(--sentinel-space-10);
+  max-width: 40rem;
+}
+
+.technology-sentinel__eyebrow {
+  margin-block-end: 0;
+}
+
+.technology-sentinel__accent {
+  display: block;
+  width: 3rem;
+  height: 3px;
+  background-color: var(--sentinel-color-primary);
+}
+
+.technology-sentinel__heading {
+  font-size: clamp(2rem, 5vw, var(--sentinel-font-size-3xl));
+  letter-spacing: var(--sentinel-letter-spacing-widest);
+}
+
+.technology-sentinel__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sentinel-space-6);
+}
+
+.technology-sentinel__card {
+  --sentinel-card-padding: var(--sentinel-space-8);
+  --sentinel-card-bg: var(--sentinel-color-card);
+  --sentinel-card-border: var(--sentinel-color-border-subtle);
+  --sentinel-card-shadow: var(--sentinel-shadow-none);
+}
+
+.technology-sentinel__card-title {
+  font-family: var(--sentinel-font-heading-family);
+  font-size: var(--sentinel-font-size-xl);
+  font-weight: var(--sentinel-font-heading-weight);
+  line-height: var(--sentinel-line-height-snug);
+  letter-spacing: var(--sentinel-letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--sentinel-color-white);
+}
+
+.technology-sentinel__card-text {
+  font-size: var(--sentinel-font-size-sm);
+  line-height: var(--sentinel-line-height-relaxed);
+  color: var(--sentinel-color-grey);
+}
+
+@media screen and (min-width: 750px) {
+  .technology-sentinel {
+    padding-block: var(--sentinel-space-20);
+  }
+
+  .technology-sentinel__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sentinel-space-8);
+  }
+}
